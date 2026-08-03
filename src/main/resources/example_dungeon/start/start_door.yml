@@ -1,0 +1,5 @@
+doors:
+- x: 0
+  y: 1
+  z: 10
+  facing: x-

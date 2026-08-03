@@ -1,0 +1,5 @@
+generator:
+  start: "开始生成地牢..."
+  finish: "地牢生成完成！共 %d 个房间"
+  boss_placed: "Boss 房间已放置"
+  deadend: "放置补丁房间"
