@@ -1,21 +1,42 @@
-MIT License
+GPL v3 License
 
-Copyright (c) 2026 HimxhMC
+Version 1.0, 2026
+Copyright © 2026 HimxhMc
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version, with the additional terms specified below.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see https://www.gnu.org/licenses/.
+
+Additional Terms for HimxhMc Minecraft Plugin:
+
+This work is subject to the Mojang EULA (End User License Agreement) at all times. Any use, distribution or modification of this work must strictly comply with the Mojang EULA.
+You are prohibited from distributing modified or unmodified versions of this work for commercial profit, including but not limited to paid sales, paid unlocking, bundled paid services, or any other form of charging for access to this work.
+You shall not remove or alter the original copyright notice, the identifier "HimxhMc" and related trademark marks in the work. You are not granted any right to use the "HimxhMc" trademark for commercial or misleading purposes.
+Any modified version of this work must be clearly marked as changed, and the full source code of the modified version must be disclosed in accordance with the GPLv3 license terms.
+
+以下为中文翻译，仅供参考，不具有实际法律效力。
+HimxhMc 我的世界插件开源许可证（基于GPLv3）
+第1版 2026年
+版权所有 © 2026 HimxhMc
+
+本程序是自由软件：你可以依照自由软件基金会发布的GNU通用公共许可证第3版（或你自行选择的更高版本），结合以下指定的附加条款，重新分发和/或修改本程序。
+
+本程序的发布目的是希望它能对使用者有所帮助，但不对其提供任何形式的明示或暗示保证，包括但不限于对适销性和特定用途适用性的默示保证。更多细节请查阅GNU通用公共许可证的相关条款。
+
+你应当随本程序一同收到GNU通用公共许可证的副本，若未收到，请查阅 https://www.gnu.org/licenses/。
+
+HimxhMc 我的世界插件附加条款：
+
+本作品全程受Mojang最终用户许可协议（EULA）约束，对本作品的任何使用、分发或修改行为都必须严格遵守Mojang EULA的相关规定。
+禁止将本作品的修改版或未修改版用于商业牟利行为，包括但不限于付费售卖、付费解锁、捆绑付费服务，或其他任何对访问本作品收取费用的形式。
+你不得移除或篡改作品中的原始版权声明、“HimxhMc”标识及相关商标标记，本许可证未授予你任何将“HimxhMc”商标用于商业或误导性用途的权利。
+本作品的任何修改版本都必须明确标注已被改动，且修改版本的完整源代码必须依照GPLv3许可证的条款进行公开披露。
