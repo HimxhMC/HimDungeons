@@ -29,6 +29,8 @@ AABB 碰撞检测：防止房间重叠（可配置关闭）。
 
 权限控制：可设置允许/禁止的命令、方块放置/破坏白名单。
 
+支持与HimDSL一起控制地牢。
+
 Soft Dependencies：支持 Parties、Vault、Slimefun、MythicMobs、PlaceholderAPI。
 
 安装与依赖
