@@ -1,139 +1,372 @@
-HimDungeons Dungeon Plugin
-HimDungeons 地牢插件
+HimDungeons – 地牢生成插件
+HimDungeons 是一款基于 WorldEdit 的 Minecraft 地牢生成插件，支持自定义房间模板、自动布局、门配对、Boss 战、背包隔离、多种奖励及权限控制，适合用于 RPG 或小游戏服务器。
 
-Dynamic Void World Generation System
-一、动态虚空世界生成体系
-This plugin adopts an independent and isolated dynamic world generation scheme. 
-Each time a dungeon is generated, a unique exclusive void world will be automatically created with the naming rule dungeon_dungeonName_timestamp, 
-which completely prevents block conflicts between different dungeon instances.
-该插件采用独立隔离的动态世界生成方案，每次生成地牢时会自动创建唯一命名的专属虚空世界，命名规则为 dungeon_地牢名_时间戳，完全避免不同地牢实例之间的区块冲突。
+简介
+HimDungeons 通过读取预制的 .schem 原理图（由 WorldEdit 创建）和配套的 YAML 配置文件，自动生成一座随机、连通、带有 Boss 房间的迷宫式地牢。玩家可单人挑战，也可组队（支持 Party 插件）进入。
 
-The entire generation process uses a dual scheduling mechanism of main thread + async thread: 
-world creation is executed on the main thread to ensure Bukkit safety, while room layout calculation runs on the async thread to avoid server lag. 
-If generation fails, it will automatically trigger world destruction and resource release, leaving no residual useless world files.
-生成全程采用主线程+异步线程双调度机制：世界创建放在主线程执行保障Bukkit安全，房间布局计算放到异步线程运行避免服务器卡顿，一旦生成失败会自动触发世界销毁和资源释放，
-不会产生残留无用世界文件。
+✨ 主要特性
+完全可视化配置：所有地牢管理操作（添加房间/门/箱子/出生点/存档点、修改配置）均可通过 GUI 完成，无需手动编辑文件。
 
-Phased Dungeon Layout Generation Algorithm
-二、分阶段地牢布局生成算法
-Instead of using a single random generation logic, 
-the plugin implements a three-layer progressive generation process that balances the rationality and randomness of dungeon paths.
-插件没有采用单一随机生成逻辑，而是设计了三层递进的生成流程，兼顾地牢通路的合理性和随机性。
+完全自定义房间池：只需准备 .schem 和 _door.yml，即可定义任意形状的房间（GUI 可辅助生成门配置）。
 
-Backtracking-enabled Main Path Generation
-带回溯的主路径生成
+智能门配对：通过 x±/y±/z± 朝向自动匹配，支持旋转。
 
-Starting from the start room, the main path is strictly generated according to the configured "range of room count from start to Boss room". 
-Fallback rooms are strictly forbidden from entering the main path. When a path segment cannot be extended further, 
-the system will automatically perform backtracking, roll back to the last expandable node and retry, 
-until the Boss room is successfully placed at the end of the main path, completely avoiding dead-end main paths.
-从起始房间开始，严格按照配置的「起点到Boss房间数量范围」生成主通路，全程禁止fallback房间进入主路径。当某段通路无法继续延伸时会自动执行回溯逻辑，
-回退到上一个可扩展节点重新尝试，直到成功将Boss房间放置在主路径末端，完全避免生成断头主路的问题。
+多种房间类型：start、boss、fallback（封堵门）以及普通房间，各有权重。
 
-BFS Branch Auto Expansion
-BFS分支自动拓展
+高效生成算法：先保证一条从起点到 Boss 的主路径，再通过 BFS 分支扩展，最后用 fallback 补全所有空门。
 
-After the main path is generated, all free doors on the main path will be automatically used as root nodes to start a 
-Breadth-First Search to expand branch rooms outward. The expansion depth strictly follows the configured maximum depth limit. 
-When the configured minimum room count is reached and there are no remaining expandable nodes, the expansion will be terminated early to 
-avoid unnecessary performance consumption.
-主路径生成完成后，会自动将主路径所有空闲门作为根节点，启动广度优先搜索向外拓展分支房间，拓展深度严格遵守配置的最大深度限制。
-当已经达到配置的最小房间数且没有剩余可拓展节点时，会提前终止拓展避免不必要的性能消耗。
+AABB 碰撞检测：防止房间重叠（可配置关闭）。
 
-Empty Door Pre-Matching + Fallback Blocking
-空门预配对+fallback封堵
+完整配置系统：全局 + 每个地牢独立配置，涵盖游戏规则、奖励、权限、费用等。
 
-After branch expansion, full empty door pre-matching will be performed first, 
-automatically binding and connecting free room doors that have completely matched positions and orientations.
-Then all remaining unused empty doors will be traversed and blocked uniformly with fallback rooms, which not only improves room utilization, 
-but also leaves no floating invalid doors.
-分支拓展完成后会先执行全量空门预匹配，将位置、朝向完全对接的空闲房间门自动绑定连通，之后再遍历所有剩余未使用的空门，用fallback房间统一封堵，既提升了房间利用率，
-也不会留下悬空无效门。
+管理 GUI：可视化创建/编辑地牢、添加房间/门/箱子/出生点/存档点，以及编辑任意配置项（支持批量修改）。
 
-Optional Full-map Connectivity Validation
-可选全图连通性校验
+玩家背包隔离：支持深拷贝背包，进入地牢时备份并清空，离开时恢复。
 
-It supports enabling BFS full-map connectivity check, which automatically abstracts all rooms into a connected graph for traversal and validation,
-ensuring that all rooms are connected to the start point and no isolated rooms are separated from the main dungeon system.
-支持开启BFS全图连通性检查，自动将所有房间抽象为连通图遍历校验，确保所有房间都和起点连通，不会出现孤立房间脱离地牢主体系的问题。
+多种 Boss 支持：支持原版实体及 MythicMobs（软依赖）。
 
-Highly Compatible Room Docking Core Technology
-三、高兼容的房间对接核心技术
-This is the most fundamental generation capability of this plugin, which fully implements a custom misalignment-free automatic door pairing logic.
-这是该插件最核心的生成底层能力，完全自定义实现了无错位自动门配对逻辑。
+奖励与入场费：支持 Vault 货币、PlayerPoints 点券、执行控制台命令。
 
-Door information for all rooms is defined through an independent _door.yml file, supporting custom door relative coordinates, 
-orientation, type and weight. Each room can automatically adapt to docking requirements with up to 4 times 90-degree Y-axis rotation.
-所有房间的门信息通过独立的_door.yml文件定义，支持自定义门相对坐标、朝向、类型和权重，房间最多支持4次90度绕Y轴旋转自动适配对接需求。
+权限控制：可设置允许/禁止的命令、方块放置/破坏白名单。
 
-It introduces an original strict dual-validation door matching rule: the coordinate one block forward from door A's 
-orientation must equal the anchor point of door B, and meanwhile the coordinate one block forward from door B's orientation must equal the anchor point of door A,
-which 100% eliminates door misalignment and clipping issues.
-独创严格的双校验门匹配规则：要求A门朝向前进一格的坐标等于B门锚点，同时B门朝向前进一格的坐标等于A门锚点，100%避免门错位、穿模的问题。
+Soft Dependencies：支持 Parties、Vault、Slimefun、MythicMobs、PlaceholderAPI。
 
-It supports door type matching mechanism: non-fallback doors can only be docked with doors of the same type, 
-while fallback doors can connect to any normal room door. It also provides a configurable door-pairing reuse switch to flexibly control 
-whether the same door pair can be reused to connect different rooms.
-支持门类型匹配机制：非fallback门必须同类型才能对接，fallback门可任意对接普通房间门，同时支持门配对复用开关配置，灵活控制是否允许同一对门重复连接不同房间。
+安装与依赖
+硬依赖
+WorldEdit（≥ 7.0）
 
-Multi-layer Collision Overlap Prevention System
-四、多层碰撞防重叠校验体系
-Two switchable collision detection schemes are provided to adapt to different usage scenarios.
-提供了两种可切换的碰撞检测方案，适配不同的使用场景。
+软依赖（可选）
+Vault – 经济奖励/入场费
 
-Default AABB Axis-Aligned Bounding Box Detection: Each generated room is assigned an independent spatial bounding box. 
-During room expansion, the system automatically validates whether the new room's bounding box overlaps with existing rooms. 
-This method has extremely high performance and fits most scenarios.
-默认AABB轴对齐包围盒检测：给每个生成的房间生成独立的空间包围盒，房间拓展时自动校验新房间的包围盒是否和已有房间重叠，性能极高，适配绝大多数场景。
+PlayerPoints – 点券奖励/入场费
 
-Custom Prevention Block Detection Mode: After disabling AABB, 
-the system will automatically traverse the coordinates of specified special blocks in all already placed rooms. 
-When generating a new room, it will detect whether the candidate space conflicts with these special block positions, 
-enabling fine-grained collision control based on user-defined special blocks.
-自定义阻止方块检测模式：关闭AABB后，会自动遍历所有已放置房间的指定特殊方块的坐标，新房间生成时检测候选空间是否和这些特殊方块位置冲突，可实现基于
-自定义特殊方块的精细碰撞控制。
+Parties – 组队模式
 
-In addition, it supports configuring the minimum room spacing parameter, 
-which enforces a specified distance between different rooms, completely preventing overcrowding and overlapping during dungeon generation.
-除此之外还支持配置房间最小间距参数，强制不同房间之间保持指定距离，完全避免地牢生成拥挤重叠的问题。
+Slimefun – 限制 Slimefun 物品使用
 
-WorldEdit Asynchronous Optimized Paste Technology
-五、WorldEdit异步优化粘贴技术
-The native WorldEdit paste logic has been deeply customized and optimized.
-对原生WorldEdit粘贴逻辑做了深度定制优化。
+MythicMobs – Boss 生成
 
-Schematic loading and non-air block boundary pre-calculation are all executed on the async thread, 
-and only the final block writing operation is placed on the main thread, which greatly reduces main thread IO occupation.
-原理图加载和非空气方块边界预计算全部放在异步线程执行，仅把最终方块写入操作放到主线程，大幅降低主线程IO占用。
+PlaceholderAPI – 占位符支持（未强制，但可扩展）
 
-New automatic Y-axis calibration logic is added: 
-it automatically identifies the coordinate of the bottommost non-air block in the schematic, 
-offsets the misalignment caused by redundant height in the schematic, so that rooms with different heights can be perfectly 
-aligned to the unified anchor height.
-新增自动Y轴校准逻辑：自动识别原理图中最底部的非空气方块坐标，抵消原理图冗余高度带来的错位问题，让不同高度的房间都能完美对齐到统一锚点高度。
+安装步骤
+将 HimDungeons.jar 放入服务器的 plugins/ 目录。
 
-After pasting is completed, the system will automatically execute chest filling logic. 
-Based on the independent _chest.yml configuration file, specified items will be generated at specified relative coordinates with configured probability. 
-The coordinates will be automatically adapted to the current room's rotation angle after rotation, no need to manually adjust loot coordinates.
-粘贴完成后自动执行宝箱填充逻辑，基于独立的_chest.yml配置文件，按概率在指定相对坐标位置生成指定物品，旋转后坐标自动适配当前房间的旋转角度，无需手动调整 loot 坐标。
+确保 WorldEdit 已安装并正常启动。
 
-Supporting Generation Auxiliary Capabilities
-六、配套生成辅助能力
-Automatic Room Resource Scanning: It automatically and recursively scans the rooms directory of the dungeon, 
-automatically recognizes schem/schematic schematics with valid door.yml, automatically classifies them into four categories by prefix: 
-start, boss, fallback and normal rooms, and automatically injects the generation weight set in the configuration file. 
-Custom weight configuration is also supported to adjust the generation probability of different rooms.
-房间资源自动扫描：自动递归扫描地牢的rooms目录，自动识别带合法door.yml的schem/schematic原理图，自动按前缀分类为start、boss、fallback、普通房间四类，
-自动注入配置文件中设置的生成权重，也支持自定义权重配置实现不同房间的生成概率调整。
+启动服务器，插件会自动生成 plugins/HimDungeons/config.yml 以及 example_dungeon 示例地牢（内含完整的房间示例）。
 
-Room Reuse Control: A toggle switch is provided to control whether the same room template can be reused to generate multiple instances, 
-meeting different dungeon style requirements.
-房间复用控制：支持开关控制是否允许重复使用同一个房间模板生成多个实例，满足不同的地牢风格需求。
+根据需要，使用管理 GUI 或直接修改配置文件来定制地牢。
 
-Post-generation Automatic Initialization: After the dungeon is fully generated, 
-the system will automatically teleport the player to the custom spawn point in the start room, 
-automatically spawn the Boss with configured attributes, and support custom Boss type and NBT. 
-It also supports automatic deep copy backup of the player's inventory before entering the dungeon, and starts the dungeon time limit timer. 
-The complete closed-loop generation logic requires no extra manual operations.
-生成后自动初始化：地牢生成完成后自动把玩家传送到起始房间的自定义出生点，自动生成配置指定属性的Boss，支持自定义Boss的类型和NBT；同时支持自动深拷贝
-备份玩家进入地牢前的背包，开启地牢限时计时器，完整的生成闭环逻辑无需额外手动操作。
+快速开始
+1. 创建新地牢
+使用命令 /himdungeons create <地牢名> 创建地牢目录和默认配置。
+
+建议：创建后直接用 /himdungeons edit <地牢名> 打开管理 GUI 进行后续配置。
+
+2. 通过 GUI 添加房间
+用 WorldEdit 在游戏内选中一个区域（作为房间模板）。
+
+在管理 GUI 中点击 “保存房间”，输入房间基础名（如 combat_01），插件会自动将选区保存为 .schem，并生成一个空的 _door.yml 模板（后续需添加门）。
+
+若要添加门，点击 “添加门”，然后看向要设为门位置的方块，点击即可记录坐标，随后输入 基础名 朝向 [类型] [权重]。
+
+同理，可添加箱子、出生点、存档点。
+
+所有文件操作（创建/删除房间、门、箱子、出生点、存档点）均可在 GUI 中完成，无需手动编辑 YAML。
+
+3. 配置地牢
+在管理 GUI 中点击 “编辑配置”，打开配置编辑器，可调整所有实例参数（房间数量、深度、权重、Boss、奖励、权限等）。支持批量编辑，可一次性将某项设置应用到所有地牢。
+
+4. 启动地牢
+玩家使用：
+
+bash
+/himdungeons start [地牢名] [模式]
+不指定参数则打开 GUI 选择地牢。
+
+模式：single（单人）、multi（附近潜行玩家加入）、party（通过 Party 插件邀请队伍）。
+
+地牢生成后，玩家会被传送至 start 房间的出生点，背包会被备份并清空（若开启 deepCloneInventory）。
+
+管理 GUI 详解
+打开方式
+/himdungeons edit – 打开主菜单，列出所有已配置的地牢。
+
+/himdungeons edit <地牢名> – 直接进入指定地牢的管理面板。
+
+主菜单
+显示所有带有 config.yml 的地牢文件夹，点击图标进入该地牢的管理面板。底部还有：
+
+全局配置 – 修改全局语言、消息前缀、生成冷却。
+
+批量编辑 – 进入配置编辑器，可将某项设置同时应用到所有地牢。
+
+刷新 – 重新扫描地牢列表。
+
+地牢管理面板（功能按钮）
+按钮	功能	操作说明
+保存房间	将 WorldEdit 选区保存为房间模板	输入基础名（可含子路径，如 a/b/room1），自动生成 .schem 和空的 _door.yml
+添加门	为房间添加门定义	先看向方块以记录相对坐标，然后输入 基础名 朝向 [类型] [权重]（如 combat_01 z+ default 10）
+添加箱子	为房间添加战利品箱	先看向方块记录位置，然后输入房间基础名，之后逐个输入概率和物品（如 50 DIAMOND 1），输入 done 结束
+添加出生点	为房间设置玩家/Boss 出生点	站在目标位置，输入房间基础名，生成 _spawn.yml
+删除房间	删除房间的所有相关文件	输入基础名，会删除 .schem、_door.yml、_chest.yml、_spawn.yml、_checkpoint.yml
+删除门	仅删除该房间的 _door.yml	输入基础名
+删除箱子	仅删除 _chest.yml	输入基础名
+删除出生点	仅删除 _spawn.yml	输入基础名
+编辑配置	打开配置编辑器	可修改所有 dungeonInstance.* 参数，支持批量操作
+添加存档点	设置玩家进入该房间时的自动存档点	站在目标位置，输入房间基础名，生成 _checkpoint.yml
+删除存档点	删除 _checkpoint.yml	输入基础名
+所有输入均支持 cancel 取消操作。
+
+配置编辑器
+配置编辑器以 GUI 形式展示所有配置项，按类别排列，支持：
+
+点击调整数值：左键 +1，右键 -1，Shift+左键 +10，Shift+右键 -10（整数类型）。
+
+布尔值切换：点击直接翻转。
+
+字符串输入：左键弹出聊天输入，右键清空为默认值。
+
+列表编辑：左键添加条目，右键删除条目（输入要移除的元素，或 * 清空全部）。
+
+软依赖提示：若配置项依赖的插件未安装，会显示红色警告，禁止修改。
+
+批量模式：在批量编辑器中，修改会同步到所有地牢。
+
+配置指南
+全局配置（plugins/HimDungeons/config.yml）
+yaml
+lang: zh_CN                     # 语言文件（支持 zh_CN, en_US 等）
+msgPrefix: "&a[HimDungeons] &r" # 全局消息前缀
+generateCooldown: 0             # 生成冷却（秒，0 为无限制）
+地牢实例配置（<地牢名>/config.yml）
+所有实例配置位于 dungeonInstance 节点下。推荐使用配置编辑器修改，避免格式错误。
+
+基本设置
+键	说明	默认值
+enable	是否启用该地牢	true
+displayName	显示名称	地牢
+fileName	文件名（不重要）	dungeon_01
+msgPrefix	地牢专用消息前缀（覆盖全局）	无
+生成参数
+键	说明	默认值
+minRoomAmount	最少非 fallback 房间数	5
+maxRoomAmount	最多非 fallback 房间数	12
+dfsMaxDeep	BFS 分支最大深度	8
+useBfsCheck	是否进行连通性检查（BFS）	false
+useAabb	是否使用 AABB 碰撞检测（关闭则使用阻止方块检测）	true
+disconnectedRoomDistance	房间最小间距（0 为不检查）	0
+allowRoomReuse	是否允许重复使用同一房间模板	false
+allowDoorReuse	是否允许重复使用同一门配对	false
+allowFallbackDoorReuse	是否允许 fallback 门复用	false
+startToBossRoomAmmount	起点到 Boss 之间的房间数范围，如 "10 10"	"10 10"
+blockRoomGenerateBlocks	阻止方块列表（如 ["CHEST", "SPAWNER"]）	[]
+generatorChoose	自定义类型权重覆盖（格式：[[类型, 权重], ...]）	[]
+结构权重（dungeonInstance.structureChoose）
+此节点下可以按房间基础名（不含后缀）设置权重，数值越大被选中的概率越高。
+示例：
+
+yaml
+structureChoose:
+  combat: 100
+  straight: 80
+  corner: 60
+  tCorner: 40
+  cross: 20
+  stair: 20
+  boss: 30
+  fallback: 10
+游戏规则与环境
+键	说明	默认值
+allowParties	是否允许 Party 模式	false
+allowSlimefun	是否允许使用 Slimefun 物品	false
+bossType	Boss 类型列表（原版实体名）	["zombie"]
+bossNbt	对应的 NBT 字符串（可设血量等）	["{Health:100.0f}"]
+keepInventory	死亡是否保留物品（MC gamerule）	false
+deepCloneInventory	进入时深拷贝背包（隔离物品）	false
+time	限时（秒，0 为不限）	0
+dungeonTime	世界时间（tick，0~24000）	1200
+advanceTime	时间是否流逝	false
+weather	天气：clear/rain/thunder	clear
+difficulty	难度：peaceful/easy/normal/hard	normal
+allowMobs	允许生成的生物列表（all 表示全部）	["all"]
+useMythicMobs	是否使用 MythicMobs 生成 Boss	false
+权限与控制
+键	说明	默认值
+commandsAllowListType	命令列表类型：white/black	white
+commandsAllow	命令列表（不带 /）	[]
+buildSettingsListType	建造白/黑名单类型	white
+buildSettings	可放置方块材质列表	[]
+breakSettingsListType	破坏白/黑名单类型	white
+breakSettings	可破坏方块材质列表	[]
+lobby	退出时传送的地点（格式：x,y,z,yaw,pitch,world）	无
+奖励（dungeonInstance.rewards）
+yaml
+rewards:
+  vault:
+    money: 100.0         # 给予 100 货币
+  playerPoints:
+    points: 50           # 给予 50 点券
+  consoleCommands:
+    - "say {player} 通关了！"
+入场费（dungeonInstance.enterCost）
+yaml
+enterCost:
+  vault:
+    money: 10.0          # 扣除 10 货币
+  playerPoints:
+    points: 5            # 扣除 5 点券
+  consoleCommands:
+    - "say {player} 进入地牢"
+地牢设计
+房间文件结构（由 GUI 自动管理，无需手动创建）
+text
+<地牢名>/
+├── config.yml
+└── rooms/
+    ├── start_room.schem
+    ├── start_room_door.yml
+    ├── start_room_spawn.yml       (可选)
+    ├── boss_room.schem
+    ├── boss_room_door.yml
+    ├── boss_room_spawn.yml
+    ├── normal/
+    │   ├── combat_room.schem
+    │   ├── combat_room_door.yml
+    │   ├── combat_room_chest.yml   (可选)
+    │   └── ...
+    └── fallback_room.schem
+        └── fallback_room_door.yml
+关键文件说明（了解即可，GUI 会生成并维护）
+_door.yml：定义门的位置、朝向、类型和权重。
+示例内容：
+
+yaml
+doors:
+  - { x: 0, y: 1, z: 5, facing: z+, type: default, weight: 10 }
+_spawn.yml：定义玩家或 Boss 的出生点偏移（相对房间原点）。
+
+yaml
+spawn:
+  x: 0
+  y: 1
+  z: 0
+_chest.yml：定义战利品箱。
+
+yaml
+chests:
+  - pos: [2, 1, 3]
+    loot: "50 DIAMOND 1"
+_checkpoint.yml：定义玩家进入该房间时的自动存档点（格式同 _spawn.yml）。
+
+房间命名规则
+以 start 开头的房间视为起始房间（必须存在且只有一个）。
+
+以 boss 开头的房间视为 Boss 房间（必须存在且只有一个）。
+
+以 fallback 开头的房间用作封堵未配对的门（需只有一个门）。
+
+其他房间为普通房间，用于路径填充。
+
+所有房间必须至少有一个门，Boss 房间可以有多个门但通常只保留一个用于连接，其余会自动封堵。
+
+命令与权限
+玩家命令
+命令	说明	权限节点
+/himdungeons start [地牢] [模式]	打开地牢选择 GUI 或直接启动	himdungeons.start
+/himdungeons leave	离开当前地牢	himdungeons.leave
+/himdungeons help	显示帮助	无（有任一项权限即可）
+管理员命令
+命令	说明	权限节点
+/himdungeons create <地牢名>	创建新地牢目录	himdungeons.admin
+/himdungeons edit [地牢名]	打开管理 GUI	himdungeons.admin
+/himdungeons reload	重载配置	himdungeons.admin
+/himdungeons blockpos <x> <y> <z>	调试：计算相对坐标	himdungeons.admin（需 debug 模式）
+技术原理
+生成流程
+扫描房间池：读取 rooms/ 下所有 .schem 及配套 _door.yml，按前缀分类（start/boss/fallback/normal）。
+
+构建主路径：从起始房间开始，随机选择可用门，扩展普通房间，直到达到指定长度，然后在末端尝试放置 Boss 房间。若失败则回溯。
+
+BFS 分支扩展：将主路径上所有空门作为根节点，以 BFS 方式向外扩展普通房间，直到达到最大房间数或无可扩展节点。
+
+预匹配：在所有非 fallback 房间之间尝试配对空门，减少后续 fallback 数量。
+
+Fallback 封堵：遍历所有剩余空门，尝试放置 fallback 房间（必须只有一个门且朝向匹配）。
+
+连通性检查（可选）：验证所有房间是否通过门逻辑连通。
+
+异步粘贴：按顺序将原理图粘贴到世界，同时填充箱子、应用阻止方块检测。
+
+初始化实例：设置玩家存档点、Boss 实体、背包备份、限时计时器等。
+
+核心技术
+门配对算法：基于 DoorMatcherUtil，通过相对坐标和朝向向量，判断两个门是否能正确对接（P1 + D1 = P2 且 P2 + D2 = P1）。
+
+旋转支持：所有相对坐标和朝向均支持 0°/90°/180°/270° 旋转（绕 Y 轴）。
+
+AABB 碰撞：使用 AABBUtil 检测房间包围盒是否重叠，支持间距约束。
+
+权重选择：结构权重、门权重均影响随机选择概率。
+
+Boss 管理：Boss 死亡时触发通关逻辑，恢复所有玩家背包并传送回大厅。
+
+数据持久化：玩家背包备份存储于 <地牢名>/player_data.json，支持重连恢复。
+
+开发者 API
+BossAPI
+提供静态方法用于 HimDSL 脚本或其他插件获取 Boss 信息：
+
+java
+// 获取玩家当前世界的 Boss
+BossData data = BossAPI.getBoss(player);
+// 获取血量
+double health = BossAPI.getBossHealth(player);
+// 获取坐标
+double x = BossAPI.getBossX(player);
+详细方法见 BossAPI 类。
+
+事件监听
+插件未提供专门的 API 事件，但可通过监听 EntityDeathEvent 判断 Boss 死亡（通过 HimDungeons.dungeonBosses 匹配）。通关时调用 HimDungeons.triggerHimDSLEvent(true) 用于 HimDSL 集成。
+
+扩展点
+实现自己的 ConfigApplier 或继承现有类以覆盖奖励、权限逻辑。
+
+通过 HimDungeons.getInstance() 获取插件实例，访问 dungeonInstances、dungeonBosses 等状态。
+
+常见问题
+Q: 地牢生成失败，提示 "Cannot place start room"？
+A: 检查 rooms/ 下是否有以 start 开头的 .schem 和对应的 _door.yml，且原理图有效。可以使用 GUI 重新保存或添加。
+
+Q: 生成后房间重叠怎么办？
+A: 可开启 useAabb: true 并调整 disconnectedRoomDistance。也可在 _door.yml 中调整门的位置使房间之间保留更大间距。
+
+Q: 玩家退出地牢后背包没有恢复？
+A: 检查是否开启了 deepCloneInventory，若开启则必须正常退出（使用 /leave 或通关）。若异常退出，重启服务器会自动恢复备份（PlayerDataManager.restoreAllPendingBackups）。
+
+Q: Boss 不生成或血量异常？
+A: 确认 bossType 和 bossNbt 配置正确。若使用 MythicMobs，确保插件已安装且 useMythicMobs 为 true。
+
+Q: 如何让玩家使用自定义命令？
+A: 在 commandsAllow 白名单中添加命令（不带 /），或将列表类型改为 black 并排除禁止命令。
+
+Q: 支持 1.20+ 吗？
+A: 插件基于 WorldEdit 7.x 和 Bukkit API，理论上支持 1.16.5 及以上版本。建议使用最新稳定版。
+
+贡献与许可
+本插件使用 GNU General Public License v3.0 授权。
+您可以自由修改、分发，但必须保留版权声明，且任何衍生作品也需采用 GPL v3 开源。
+
+贡献指南
+Fork 本仓库，提交 Pull Request。
+
+请保持代码风格一致（遵循 Java 命名规范）。
+
+新增功能建议附带文档说明。
+
+感谢使用 HimDungeons！ 如有问题请提交 Issue 或联系作者。
+
+
+
+提示：你可自由提交Issue,PR或者Fork，但是作者在未来一年处于九年级期间，时间很少。若发现
+bug请尝试自行修复或者等待明年暑假。
