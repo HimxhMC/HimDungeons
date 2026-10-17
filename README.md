@@ -271,8 +271,8 @@ All soft dependencies are optional: Vault, PlaceholderAPI, Parties, Slimefun, an
 
 ### 环境要求 · Requirements
 
-需要 Paper 1.20 以上（推荐 1.21.3 以上）、Java 21 以上，内存至少 2GB，每个活跃地牢世界额外占用约 50MB。
-Requires Paper 1.20+ (1.21.3+ recommended), Java 21+, at least 2GB RAM, and roughly 50MB extra per active dungeon world.
+需要 Bukkit 1.21以上（推荐 1.21.3 以上）、Java 25 以上，内存至少 2GB，每个活跃地牢世界额外占用约 50MB。
+Requires Paper 1.21+ (1.21.3+ recommended), Java 25+, at least 2GB RAM, and roughly 50MB extra per active dungeon world.
 
 ### 安装 · Install
 
