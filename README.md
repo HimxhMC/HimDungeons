@@ -4,11 +4,6 @@
 >
 > Let the rooms decide how they connect — any size, any shape, any door position, native 3D.
 
-[![Paper](https://img.shields.io/badge/Paper-1.21%2B-4B8BBE)]()
-[![Java](https://img.shields.io/badge/Java-25%2B-orange)]()
-[![WorldEdit](https://img.shields.io/badge/WorldEdit-NOT%20required-brightgreen)]()
-[![Version](https://img.shields.io/badge/version-1.0-yellow)]()
-
 ---
 
 ## 为什么选 HimDungeons？· Why HimDungeons?
@@ -271,8 +266,8 @@ All soft dependencies are optional: Vault, PlaceholderAPI, Parties, Slimefun, an
 
 ### 环境要求 · Requirements
 
-需要 Bukkit 1.21以上（推荐 1.21.3 以上）、Java 25 以上，内存至少 2GB，每个活跃地牢世界额外占用约 50MB。
-Requires Paper 1.21+ (1.21.3+ recommended), Java 25+, at least 2GB RAM, and roughly 50MB extra per active dungeon world.
+需要 Bukkit 1.18以上（推荐 1.21.3 以上）、Java 17 以上，内存至少 2GB，每个活跃地牢世界额外占用约 50MB。
+Requires Paper 1.18+ (1.21.3+ recommended), Java 17+, at least 2GB RAM, and roughly 50MB extra per active dungeon world.
 
 ### 安装 · Install
 
