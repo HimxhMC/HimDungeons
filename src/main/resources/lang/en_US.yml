@@ -1,0 +1,701 @@
+# ============================================================
+# HimDungeons English Language File
+# ============================================================
+# Rules:
+#   1) Color codes use &; LanguageManager converts to §
+#   2) Placeholders use %name%, filled by code
+#   3) Literal percent signs must be written as %%
+#   4) Every key here must exist in zh_CN.yml
+#   5) Run /dg reload after editing
+# ============================================================
+
+# ===== Common =====
+common:
+  player-only: "This command can only be run by a player"
+  unknown-subcommand: "Unknown subcommand. Use /%label% help for help"
+  reload-success: "Configuration reloaded"
+
+# ===== Commands =====
+command:
+  help:
+    header: "&6=== HimDungeons Command Help ==="
+    start: "&e/dg start [dungeon] [mode] &fStart a dungeon. Modes: single(default)/multi/party"
+    start-party-confirm: "&e/dg start party confirm &fConfirm a Party join"
+    edit: "&e/dg edit [dungeon] &fManage dungeons (opens the admin GUI with no args)"
+    leave: "&e/dg leave &fLeave the current dungeon"
+    reload: "&e/dg reload &fReload configuration"
+    create: "&e/dg create <dungeon> &fCreate a new dungeon directory"
+    help: "&e/dg help &fShow this help"
+    blockpos: "&e/dg blockpos <x> <y> <z> &fCalculate a block's relative position in the selection"
+    permissions: "&7Permission nodes: himdungeons.start, himdungeons.admin, himdungeons.leave"
+
+  blockpos:
+    no-permission: "You do not have permission to use this command (requires himdungeons.admin)"
+    debug-only: "This command is only available in debug mode"
+    usage: "Usage: /dg blockpos <x> <y> <z>"
+    no-selection: "Select a region with a wooden pickaxe first (Creative + OP)"
+    out-of-region: "That block is outside the selection"
+    relative: "Relative position: (%x%, %y%, %z%)"
+    invalid-number: "Coordinates must be integers"
+
+  create:
+    no-permission: "You do not have permission to create dungeons (requires himdungeons.admin)"
+    usage: "Usage: /dg create <dungeon>"
+    exists: "Dungeon '%dungeon%' already exists"
+    mkdir-fail: "Failed to create the dungeon directory"
+    save-fail: "Failed to save config.yml: %error%"
+    success: "Dungeon '%dungeon%' created successfully!"
+
+  start:
+    no-permission: "You do not have permission to start dungeons (requires himdungeons.start)"
+    not-found: "Dungeon '%dungeon%' does not exist or its config is missing"
+    not-enabled: "Dungeon '%dungeon%' is not enabled"
+    reentering: "Re-entering unfinished dungeon %dungeon%"
+    enter-denied: "Entry into the dungeon was denied by an external hook"
+    already-in: "You are already in this dungeon"
+    generating: "Generating dungeon '%dungeon%', please wait..."
+    unknown-mode: "Unknown mode: %mode%. Available: single, multi, party"
+
+  edit:
+    no-permission: "No permission"
+    invalid-category: "Invalid category: %section%"
+
+  leave:
+    no-permission: "You do not have permission to leave dungeons (requires himdungeons.leave)"
+
+  reload:
+    no-permission: "You do not have permission to reload configuration (requires himdungeons.admin)"
+
+  multi:
+    no-nearby: "No sneaking players found within 3 blocks. Starting in single mode"
+    party-joined: "Joining %dungeon% as a group. Members: %names%"
+
+  async:
+    generate-failed: "Dungeon generation failed. Check the console for errors"
+    join-success: "Joined dungeon %dungeon%"
+    enter-denied: "Entry into the dungeon was denied by an external hook"
+    world-not-found: "Could not obtain the dungeon world. Please teleport manually"
+    start-failed: "Failed to start the dungeon: %error%"
+
+  test:
+    generating: "&eGenerating test world..."
+
+  party:
+    no-plugin: "Parties is not installed. The Party mode is unavailable"
+    not-allowed: "This dungeon does not allow Party joins"
+    invite-sent: "Invitations sent to party members. They must run /dg start party confirm to join"
+    integration-failed: "Parties integration is not working correctly. Please check the plugin version"
+    no-pending: "No pending Party join request"
+    confirmed: "Confirmed join for dungeon '%dungeon%'. Generating..."
+    no-members: "No other online party members"
+
+  list:
+    no-permission: "You do not have permission to use this command (requires himdungeons.admin)"
+    header: "&6=== Running Dungeon Instances ==="
+    entry: "&e%world% &7| Dungeon: &f%dungeon% &7| Players: &f%players% &7| Remaining: &f%time%"
+    empty: "&7No dungeon instances are currently running"
+
+  kick:
+    no-permission: "You do not have permission to use this command (requires himdungeons.admin)"
+    usage: "Usage: /dg kick <player>"
+    not-found: "Player %player% is not in any dungeon"
+    success: "&aKicked %player% from the dungeon"
+
+  forceend:
+    no-permission: "You do not have permission to use this command (requires himdungeons.admin.world)"
+    usage: "Usage: /dg forceend <world>"
+    not-found: "World %world% is not a running dungeon"
+    success: "&aForce-ended %world%"
+
+  reload-one:
+    no-permission: "You do not have permission to use this command (requires himdungeons.admin)"
+    usage: "Usage: /dg reload <dungeon>"
+    not-found: "Dungeon %dungeon% does not exist"
+    success: "&aReloaded config for dungeon %dungeon%"
+
+  validate:
+    no-permission: "You do not have permission to use this command (requires himdungeons.admin)"
+    usage: "Usage: /dg validate <dungeon>"
+    not-found: "Dungeon %dungeon% does not exist"
+    header: "&6=== Validating Dungeon %dungeon% ==="
+    ok: "&a✓ %room% OK"
+    missing-schem: "&c✗ %room% missing schematic"
+    missing-door: "&c✗ %room% missing door file"
+    orphan-weight: "&e⚠ %room% in structureChoose has no matching files"
+    summary: "&7Total %rooms% rooms, %errors% errors, %warnings% warnings"
+
+  lang:
+    no-permission: "You do not have permission to use this command (requires himdungeons.admin)"
+    usage: "Usage: /dg lang <code>"
+    not-found: "Language %code% does not exist. Available: %available%"
+    success: "&aLanguage switched to %code%"
+
+  setlobby:
+    no-permission: "You do not have permission to use this command (requires himdungeons.admin)"
+    usage: "Usage: /dg setlobby <dungeon>"
+    not-found: "Dungeon %dungeon% does not exist"
+    success: "&aSet lobby teleport for %dungeon% to your current position (%world%, %x%, %y%, %z%)"
+    save-fail: "&cSave failed: %error%"
+
+  leaderboard:
+    no-permission: "You do not have permission to view leaderboards (requires himdungeons.start)"
+    usage: "Usage: /dg leaderboard <dungeon>"
+    not-found: "Dungeon %dungeon% does not exist"
+    list-header: "&6=== Dungeons with Leaderboards ==="
+    list-entry: "&e%dungeon% &7| Total players: &f%players%"
+    list-empty: "&7No leaderboards available"
+
+# ===== Dungeon generation flow =====
+dungeon:
+  generated: "Dungeon '%dungeon%' generated! %rooms% normal rooms, %fallback% fallback rooms."
+  enter-denied: "Entry into the dungeon was denied by an external hook. Reclaiming the world..."
+
+# ===== Entry cost =====
+enter-cost:
+  no-config: "Could not load the dungeon config"
+  vault-insufficient: "Insufficient balance. %amount% coins required"
+  vault-deducted: "Deducted %amount% coins"
+  points-insufficient: "Insufficient points. %amount% points required, current balance: %balance%"
+  points-deducted: "Deducted %amount% points"
+  vault-error: "Vault deduction failed: %error%"
+  points-error: "PlayerPoints deduction failed: %error%"
+
+# ===== Session =====
+session:
+  not-in-dungeon: "You are not currently in any dungeon"
+  leave-denied: "Leaving the dungeon was denied by an external hook"
+  left: "You have left the dungeon"
+  timeout-closed: "The dungeon has timed out and closed. You have been teleported back to the main world"
+  death-cooldown: "&eYou died inside the dungeon. Respawn available in %seconds%s"
+  respawn-spectator: "&7You are now spectating. You can watch your teammates continue"
+  countdown: "&eTime remaining: &c%time%"
+  timeout-extended: "&eThe dungeon has been extended by 5 minutes"
+  invulnerable: "&aYou received %seconds%s of invulnerability"
+  cooldown-remaining: "&cYou must wait %seconds%s before entering another dungeon"
+  fog-enter: "&7Entered &e%dungeon% &7dungeon. View distance limited"
+  fog-exit: "&7View distance restored"
+
+# ===== Listener interception =====
+listener:
+  command-denied: "That command is blocked inside dungeons"
+  place-denied: "That block cannot be placed inside dungeons"
+  break-denied: "That block cannot be broken inside dungeons"
+  interact-denied: "That block cannot be interacted with inside dungeons"
+  slimefun-blocked: "Slimefun items are not allowed in this dungeon"
+  slimefun-break-blocked: "Breaking Slimefun blocks is not allowed in this dungeon"
+  mythicmobs-blocked: "MythicMobs items are not allowed in this dungeon"
+
+# ===== Wooden pickaxe selection =====
+selection:
+  pos1: "Position 1: %x%, %y%, %z%"
+  pos2: "Position 2: %x%, %y%, %z%"
+  region: "Selection: %w%x%h%x%l%"
+
+# ===== Rewards =====
+reward:
+  vault: "Received %amount% coins"
+  player-points: "Received %amount% points"
+  finished: "Dungeon cleared! Rewards have been granted."
+
+# ===== Dungeon start GUI =====
+startgui:
+  title: "Select Dungeon"
+  lore-click-join: "&7Click to join"
+  item-random: "&eRandom"
+  item-random-lore: "&7Join a random dungeon"
+  item-single: "&eJoin Solo"
+  item-single-lore: "&7Enter the dungeon alone"
+  item-party: "&eJoin as Party"
+  item-party-lore: "&7Invite sneaking players within 3 blocks"
+  item-close: "&cClose"
+  msg-pick-dungeon: "Run /dg start again to pick a dungeon, or click a dungeon name to join directly"
+  msg-detect-nearby: "Detecting sneaking players within 3 blocks..."
+
+# ===== Party =====
+party:
+  glow-on: "&aParty members are now glowing"
+  glow-off: "&7Party glow disabled"
+
+# ===== Boss =====
+boss:
+  bar-title: "&c%name% &7- &c%hp%&7/&c%max%"
+  phase-change: "&c%name% entered phase 2!"
+  direction: "&cBoss is &e%direction% &c%distance% blocks away"
+
+# ===== Boss phase =====
+boss-phase:
+  trigger: "&c%name% &7entered phase &c%phase%&7!"
+  sound-played: "&7Sound played: %sound%"
+
+# ===== Loot table =====
+loot-table:
+  table-not-found: "&cLoot table '%table%' does not exist"
+
+# ===== Leaderboard =====
+leaderboard:
+  title: "&f&lLeaderboard - %dungeon%"
+  mode-fastest: "&eFastest Clear"
+  mode-wins: "&eMost Clears"
+  mode-current: "&aCurrent: %mode%"
+  entry-name: "&e#%rank% %player%"
+  lore-fastest: "&7Fastest: &f%time%"
+  lore-wins: "&7Clears: &f%wins%"
+  lore-empty: "&7No record"
+  switch-fastest: "&eSwitch to Fastest Clear"
+  switch-wins: "&eSwitch to Most Clears"
+  close: "&cClose"
+
+# ===== Validation =====
+validate:
+  no-rooms-dir: "&cRooms directory not found: %path%"
+
+# ===== Editor GUI =====
+editor:
+
+  # -------- Common --------
+  common:
+    click-edit: "&eClick to edit"
+    click-cycle: "&eClick to cycle"
+    click-cycle-short: "&eLeft-click to cycle"
+    click-delete: "&cLeft-click to delete"
+    click-edit-delete: "&eLeft-click to edit &cRight-click to delete"
+    page-prev: "&ePrevious page"
+    page-next: "&eNext page"
+    page-prev-short: "&ePrevious"
+    page-next-short: "&eNext"
+    page-info: "&ePage %page%"
+    back-main: "&7Back to main page"
+    back-list: "&7Back to instance list"
+    back-parent: "&7Back to parent"
+    back-edit: "&7Back to instance editor"
+    add: "&aAdd entry"
+    save: "&aSave"
+    save-ok: "&aSaved"
+    save-fail: "&cSave failed"
+    cancelled: "&7Cancelled"
+    cancel-hint: "&7Type cancel to abort"
+    invalid-int: "Invalid integer"
+    current: "&7Current value: &f%value%"
+    path: "&7Path: &f%path%"
+
+  # -------- Titles --------
+  title:
+    main: "&e&lHimDungeons Main Editor"
+    root: "&f&lHimDungeons Root Config"
+    dungeon-list: "&f&lHimDungeons Dungeon Instances"
+    dungeon-editor: "&f&lHimDungeons Instance Editor"
+    config-cat: "&f&lHimDungeons Config Categories"
+    config-section: "&f&lHimDungeons Config - %section%"
+    room-list: "&f&lHimDungeons Room Config List"
+    room-config: "&f&lHimDungeons Room Config - %room%"
+    door-list: "&f&lHimDungeons Door File - %room%"
+    single-door: "&f&lHimDungeons Door - %room%"
+    chest-list: "&f&lHimDungeons Chest File - %room%"
+    single-chest: "&f&lHimDungeons Chest - %room%"
+    spawn: "&f&lHimDungeons Spawn Point - %room%"
+    checkpoint: "&f&lHimDungeons Checkpoint - %room%"
+    code-files: "&f&lHimDungeons Script Files"
+    code-files-sub: "&f&lHimDungeons Script Files - %dir%"
+    list: "&f&lHimDungeons List Editor - %path%"
+    map: "&f&lHimDungeons Key-Value Editor - %path%"
+    hook-overview: "&f&lHimDungeons Hook Manager"
+    hook-detail: "&f&lHimDungeons Hook Details - %name%"
+
+  # -------- Main page --------
+  main:
+    hook: "&aHook Manager"
+    hook-lore1: "&7View and unregister active hooks one by one"
+    hook-lore2: "&7Total: &f%count%"
+    root: "&aEdit Root Config"
+    root-lore: "&7Edit config.yml"
+    dungeon: "&aEdit Dungeon Instance Config"
+    dungeon-lore: "&7Select a dungeon"
+    reload: "&cReload Entire Plugin"
+    reload-lore: "&7Reload the plugin"
+    join: "&eGo to Join Game"
+
+  respawn-mode:
+    lobby: "&cLobby"
+    checkpoint: "&aCheckpoint"
+    spectator: "&eSpectator"
+  timeout-action:
+    force-end: "&cForce End"
+    extend: "&aExtend 5min"
+  share-mode:
+    each: "&aEach Full"
+    split: "&eSplit"
+  # -------- Root config --------
+  root:
+    lang: "&eGlobal Language"
+    msg-prefix: "&eGlobal Message Prefix"
+    scan: "&ePeriodic Room Scan"
+    cooldown: "&eGeneration Cooldown"
+    save-format: "&eSchematic Save Format"
+    save-format-lore1: "&7Current: &f%format%"
+    save-format-lore2: "&eLeft-click to toggle V2 / V3"
+
+  # -------- Dungeon list --------
+  dungeon-list:
+    entry: "&a%name%"
+    entry-lore: "&7Click to edit"
+
+  # -------- Dungeon editor --------
+  dungeon-editor:
+    add-room: "&aAdd Room"
+    add-door: "&aAdd Door Anchor"
+    add-chest: "&aAdd Chest"
+    add-spawn: "&aAdd Spawn (start only)"
+    add-checkpoint: "&aAdd Checkpoint"
+    remove-room: "&cRemove Room"
+    remove-door: "&cRemove Door Anchor"
+    remove-chest: "&cRemove Chest"
+    remove-spawn: "&cRemove Spawn (start only)"
+    remove-checkpoint: "&cRemove Checkpoint"
+    config: "&eEdit Config File"
+    refresh: "&eRefresh Config File"
+    refresh-lore: "&7Re-read from disk, discarding in-memory changes"
+    room-config: "&eEdit Room Config"
+    reset: "&cReset Config to Default"
+    scan: "&eScan Directory and Register Rooms"
+    codefiles: "&eScript File Manager"
+    test: "&eGenerate Test World"
+    delete-test: "&cDelete Test World"
+    delete-test-none: "&7Delete Test World (none)"
+    join: "&aJoin This Instance"
+
+  # -------- Config categories --------
+  config-cat:
+    root: "&eInstance Root Config"
+    gen: "&eGeneration Algorithm"
+    world: "&eWorld Rules & State"
+    player: "&ePlayer Config"
+    boss: "&eBoss Config"
+    economy: "&eEntry Cost, Rewards & Settlement"
+    soft: "&eSoft Dependency Config"
+    back: "&7Back to instance editor"
+
+  # -------- Field names --------
+  field:
+    enable: "Enabled"
+    display-name: "Display Name"
+    file-name: "File Name"
+    msg-prefix: "Message Prefix"
+    lobby: "Lobby Teleport Point"
+    min-room: "Min Rooms"
+    max-room: "Max Rooms"
+    dfs-max: "DFS Max Depth"
+    use-bfs: "Enable BFS Check"
+    use-aabb: "Enable AABB"
+    disconnected-distance: "Room Spacing Threshold"
+    allow-room-reuse: "Allow Room Reuse"
+    allow-door-reuse: "Allow Door Reuse"
+    allow-fallback-reuse: "Allow Fallback Door Reuse"
+    start-to-boss: "Start-to-Boss Path Range"
+    block-generate: "Blocked Generation Blocks"
+    keep-inventory: "Keep Inventory"
+    deep-clone: "Deep Clone Inventory"
+    time: "Time Limit (seconds)"
+    dungeon-time: "World Time (ticks)"
+    advance-time: "Time Advancement"
+    weather: "Weather"
+    difficulty: "Difficulty"
+    allow-mobs: "Allowed Mobs"
+    tnt: "TNT Explosion"
+    entity: "Entity Explosion"
+    block: "Block Explosion"
+    cmd-list-type: "Command Whitelist Mode"
+    cmd-list: "Command Whitelist"
+    build-list-type: "Build Whitelist Mode"
+    build-list: "Build Whitelist"
+    break-list-type: "Break Whitelist Mode"
+    break-list: "Break Whitelist"
+    interact-list-type: "Interaction Whitelist Mode"
+    interact-list: "Interaction Whitelist"
+    use-mythic-boss: "Use MythicMob as Boss"
+    mythic-boss-name: "MythicMob Boss Name"
+    boss-type: "Boss Type List"
+    boss-nbt: "Boss NBT List"
+    vault-reward: "Vault Reward"
+    pp-reward: "PlayerPoints Reward"
+    cmd-reward: "Reward Commands"
+    vault-cost: "Vault Entry Cost"
+    pp-cost: "PlayerPoints Entry Cost"
+    cmd-cost: "Entry Cost Commands"
+    allow-parties: "Allow Parties"
+    allow-slimefun: "Allow Slimefun"
+    allow-mythic: "Allow MythicMobs Mobs"
+    respawn-mode: "Respawn Mode"
+    death-cooldown: "Death Cooldown (s)"
+    player-cooldown: "Player Entry Cooldown (s)"
+    friendly-fire: "Friendly Fire"
+    auto-pickup: "Auto Pickup"
+    teleport-invulnerable: "Teleport Invulnerability (s)"
+    countdown-warn: "Countdown Warnings (s list)"
+    timeout-action: "Timeout Action"
+    enter-title: "Enter Title"
+    leave-title: "Leave Title"
+    room-progress: "Room Progress (ActionBar)"
+    boss-direction: "Boss Direction (ActionBar)"
+    sound-volume: "Sound Volume (0-100)"
+    allow-spectator: "Allow Spectator After Death"
+    scale-by-party: "Scale by Party Size"
+    mob-spawn-rate: "Mob Spawn Rate Multiplier"
+    max-mobs-per-room: "Max Mobs per Room"
+    boss-bar: "Boss Bar"
+    party-glow: "Party Glow"
+    boss-health-multiplier: "Boss HP Multiplier per Player"
+    boss-phase-enabled: "Enable Boss Phases"
+    boss-phase-phases: "Boss Phase Config (complex)"
+    first-clear-vault: "First Clear Vault"
+    first-clear-pp: "First Clear PlayerPoints"
+    first-clear-cmd: "First Clear Commands"
+    share-mode: "Reward Share Mode"
+    permission-multiplier: "Permission Multiplier"
+    failure-vault: "Failure Penalty Vault"
+    failure-pp: "Failure Penalty PlayerPoints"
+    failure-cmd: "Failure Penalty Commands"
+    track-fastest: "Track Fastest Time"
+    leaderboard: "Leaderboard"
+    room-fog: "Room Fog"
+    loot-table-enabled: "Enable Loot Tables"
+    loot-table-tables: "Loot Tables (complex)"
+
+  # -------- Room list --------
+  room-list:
+    entry: "&e%name%"
+    entry-lore: "&7Weight: &f%weight%"
+
+  # -------- Room config --------
+  room-config:
+    weight: "&eCurrent Weight"
+    weight-value: "&7%weight%"
+    weight-click: "&eClick to edit"
+    door-file: "&eDoor File"
+    chest-file: "&eChest File"
+    spawn-file: "&eSpawn File"
+    checkpoint-file: "&eCheckpoint File"
+
+  # -------- Door list --------
+  door-list:
+    entry: "&e#%index%"
+    entry-lore: "&7%data%"
+    entry-lore2: "&eClick to edit"
+    page-info: "&ePage %page% / %total% doors"
+    add: "&aAdd New Door"
+    add-lore: "&7Uses the block you are looking at"
+
+  # -------- Single door --------
+  single-door:
+    facing: "&eFacing: %value%"
+    facing-lore: "&eLeft-click to cycle"
+    type: "&eType: %value%"
+    type-lore: "&eLeft-click to cycle"
+    weight: "&eWeight: %value%"
+    delete: "&cDelete This Door"
+
+  # -------- Coordinates (X/Y/Z, shared by doors and spawn points) --------
+  coord:
+    x: "&eX: %value%"
+    y: "&eY: %value%"
+    z: "&eZ: %value%"
+
+  # -------- Chest list --------
+  chest-list:
+    entry: "&e#%index%"
+    entry-lore: "&7%data%"
+    entry-lore2: "&eClick to edit"
+    page-info: "&ePage %page% / %total% chests"
+    add: "&aAdd New Chest"
+    add-lore: "&7Uses the block you are looking at"
+
+  # -------- Single chest --------
+  single-chest:
+    pos: "&ePosition"
+    loot: "&eLoot"
+    replace: "&eReplace with Held Item"
+    replace-lore: "&7Rewrites loot to the held item"
+    delete: "&cDelete This Chest"
+
+  # -------- Spawn / Checkpoint --------
+  spawn:
+    overwrite: "&aOverwrite with Player Position"
+  checkpoint:
+    overwrite: "&aOverwrite with Player Position"
+
+  # -------- Script files --------
+  code-files:
+    dir: "&7Directory"
+    file-size: "&7%bytes% bytes"
+    file-preview: "&e%file% (&7%lines% lines&e)"
+
+  # -------- Generic list editor --------
+  list-editor:
+    entry: "&e#%index%"
+    entry-lore: "&7%value%"
+
+  # -------- Generic map editor --------
+  map-editor:
+    entry: "&e%key%"
+    entry-lore: "&7Value: &f%value%"
+
+  # -------- Hook overview --------
+  hook-overview:
+    group: "&7Group: &f%group%"
+    count: "&7Registered: &a%count%"
+    count-empty: "&7Registered: &70"
+    id: "&7ID: &f%id%"
+    click-lore: "&eLeft-click to view details and unregister one by one"
+    clear-type-lore: "&cShift + Right-click to clear this type"
+    clear-all: "&cClear All Hooks"
+    clear-all-lore1: "&7Total: &f%total%"
+    clear-all-lore2: "&cShift + Left-click to confirm"
+    clear-all-lore3: "&7Cleared hooks must be re-registered by plugins"
+
+  # -------- Hook detail --------
+  hook-detail:
+    index: "&7Index: &f#%index%"
+    class: "&7Full type: &f%class%"
+    delete-lore: "&cLeft-click to delete"
+    page-info: "&ePage %page% / %total%, %count% entries"
+    clear-type: "&cClear This Type"
+    clear-type-lore1: "&7Current: &f%count% entries"
+    clear-type-lore2: "&cShift + Left-click to confirm"
+
+  # -------- Explosion mode display --------
+  explosion:
+    allow: "&aFully Allowed"
+    damage: "&eDamage Only"
+    deny: "&cFully Denied"
+
+  # -------- Chat messages / input prompts --------
+  msg:
+    reset-confirm: "&cThis will reset %dungeon%'s config.yml to defaults. Type confirm to proceed, or cancel to abort:"
+    reset-ok: "&aDefault config restored"
+    reset-fail: "&cRestore failed. Check the console"
+    reloaded-config: "&aConfig re-read from disk"
+    test-world-deleted: "&aTest world deleted"
+    plugin-reloaded: "&aPlugin reloaded"
+    enter-value: "&eEnter a new value for %field%:"
+    enter-value-int: "&eEnter a new integer value for %field%:"
+    enter-weight: "&eEnter weight (integer):"
+    enter-room-path: "&eEnter the room path (e.g. combat/myCombat):"
+    enter-start-path: "&eEnter the room path (e.g. start/myStart):"
+    enter-room-base: "&eEnter the room base filename (e.g. combat/myCombat):"
+    enter-delete-room: "&eEnter the room path to delete (e.g. combat/myCombat):"
+    enter-door: "&eEnter: <path> <facing> [type] [weight] (e.g. combat/myCombat z+ default 10)"
+    enter-key-value: "&eEnter key=value (e.g. money=100):"
+    enter-new-value: "&eEnter a new value for %key%:"
+    chest-path: "&eEnter the room path (e.g. combat/myCombat):"
+    chest-hint: "&7Then hold an item and enter a chance (0-100). Type done to finish, cancel to abort"
+    chest-path-set: "&aPath set: %path%"
+    chest-prob-hint: "&eHold an item and enter a chance (0-100). Type done to finish, cancel to abort"
+    chest-no-loot: "&7No loot added. Nothing was saved"
+    chest-saved: "&aChest saved: %path% (%count% entries)"
+    chest-save-fail: "Save failed: %error%"
+    chest-invalid-prob: "&cEnter an integer from 0 to 100, or done/cancel"
+    chest-prob-range: "&cChance must be between 0 and 100"
+    chest-need-hand: "&cYou must hold a valid item"
+    chest-prob-zero: "&7Chance is 0, skipping"
+    chest-added: "&aLoot added, %count% entries so far"
+    chest-continue: "&eEnter another chance, or type done to finish"
+    door-added: "&aDoor added: %path% (type: %type%, weight: %weight%)"
+    spawn-saved: "&aSpawn point saved: %path%"
+    checkpoint-saved: "&aCheckpoint saved: %path%"
+    room-deleted: "&aDeleted room %room%"
+    door-deleted: "&aDoor file deleted"
+    chest-deleted: "&aChest file deleted"
+    spawn-deleted: "&aSpawn file deleted"
+    checkpoint-deleted: "&aCheckpoint file deleted"
+    no-room: "Room does not exist"
+    no-door-file: "Door file does not exist"
+    no-chest-file: "Chest file does not exist"
+    no-spawn-file: "Spawn file does not exist"
+    no-checkpoint-file: "Checkpoint file does not exist"
+    need-selection: "Select a region with a wooden pickaxe first (Creative + OP)"
+    need-selection-framing: "Select the room region first"
+    target-block: "Look at a block (within 5 blocks)"
+    invalid-facing: "Invalid facing (x+/x-/y+/y-/z+/z-)"
+    format-error: "Invalid format"
+    save-fail-generic: "Save failed: %error%"
+    coord-updated: "&aCoordinates updated"
+    schematic-saved: "&aSchematic saved to %path%"
+    schematic-save-fail: "Save failed"
+    file-read-fail: "Read failed: %error%"
+    hook-cleared-all: "&cAll hooks cleared (%count% total)"
+    hook-confirm-all: "Hold Shift and left-click to confirm clearing all"
+    hook-cleared-type: "&cCleared %count% hooks of type %type%"
+    hook-confirm-type: "Hold Shift and left-click to confirm clearing this type"
+    hook-deleted: "&aDeleted 1 %type% hook"
+    enter-value-double: "&eEnter a new decimal value for %field%:"
+    complex-field-hint: "&eThis field is a nested structure. Edit &f%path% &ein config.yml directly"
+    code-truncated: "&7..."
+
+# ===== Hook type display names =====
+hook:
+  type:
+    before-create-world: "Before Create World"
+    after-create-world: "After Create World"
+    before-generate: "Before Generate"
+    after-generate: "After Rooms Placed"
+    before-paste: "Before Paste"
+    after-paste: "After Paste"
+    dungeon-ready: "Dungeon Ready"
+    before-destroy: "Before Destroy"
+    after-destroy: "After Destroy"
+    room-select: "Room Select"
+    room-placed: "Room Placed"
+    room-pasted: "Room Pasted"
+    chest-fill: "Chest Fill"
+    before-enter: "Before Enter"
+    after-enter: "After Enter"
+    before-leave: "Before Leave"
+    after-leave: "After Leave"
+    finish: "Finish"
+    offline: "Offline"
+    online: "Online"
+    boss-spawn: "Boss Spawn"
+    boss-defeat: "Boss Defeat"
+
+# ===== Console logs =====
+log:
+  hook:
+    boss-defeat-vetoed: "[Hook] Boss defeat settlement vetoed externally: %world%"
+    execution-error: "[Hook] Hook execution error"
+  enable:
+    banner-ready: "HimDungeons enabled, version %version%"
+    banner-disable: "HimDungeons disabled"
+    soft-dep-found: "Soft dependency %name% found"
+    soft-dep-missing: "Soft dependency %name% not found"
+  resource:
+    example-skip: "Example dungeon already exists, skipping example resource release."
+    example-copy-start: "First run, releasing example dungeon resources..."
+    example-copy-fail: "Failed to copy example_dungeon: %error%"
+    release-complete: "Default resource release complete"
+    dir-not-found: "Resource directory not found: %path%"
+    released: "Released resource: %path%"
+    resource-not-found: "Resource not found: %path%"
+    release-fail: "Failed to release resource: %path% - %error%"
+  dungeon:
+    scan-registered: "Scanned and registered new rooms: %dungeon%"
+    enter-console-cmd-fail: "Failed to run entry console command: %cmd%"
+  session:
+    backup-restored: "Restored pre-crash backup for %player% (dungeon: %dungeon%)"
+    scan-marked: "Startup scan: marked %count% orphaned backups for restoration"
+  sqlite:
+    init-ok: "Inventory database initialized: %path%"
+    init-fail: "Failed to initialize SQLite. Backup features will be unavailable"
+    save-fail: "Failed to save inventory backup: %uuid%"
+    restore-fail: "Failed to restore inventory: %uuid%"
+    update-status-fail: "Failed to update status: %uuid%"
+    find-all-fail: "Failed to query all backups"
+    find-player-fail: "Failed to query backup for player: %uuid%"
+    delete-fail: "Failed to delete inventory backup: %uuid%"
+  win:
+    mkdir-fail: "Failed to create directory: %path%"
+    save-fail: "Failed to save stats.yml: %error%"
+  config-migrated: "Config upgraded from version %from% to %to%"
+  update-available: "New version %version% available. Please update"
+  metrics-disabled: "bStats metrics disabled"
+  roomfog:
+    applied: "[RoomFog] Applied view limit to %player%"
+    restored: "[RoomFog] Restored view distance for %player%"

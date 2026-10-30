@@ -1,0 +1,48 @@
+# ============================================================
+# HimDungeons 全局配置
+# ============================================================
+# 配置版本（请勿手动修改，升级时自动迁移）
+configVersion: 1
+
+# 全局语言文件（plugins/HimDungeons/lang/<code>.yml）
+# 可用值: zh_CN, en_US，或其他你自己放进 lang/ 的语言
+lang: en_US
+
+# 全局消息前缀（会拼在所有 MessageUtil 消息前）
+# 地牢实例若配置了 dungeonInstance.msgPrefix，则地牢内的消息使用实例前缀
+msgPrefix: "&b[HimDungeons] &r"
+
+# 语言相关
+language:
+  # 按玩家客户端 locale 自动选择语言（找不到回退 lang 字段）
+  useClientLocale: false
+
+# 生成冷却（秒，0 = 不限制）
+generateCooldown: 0
+
+# 定时扫描并注册新房间（每 10 秒扫描一次）
+scanAndRegisterNewRooms: true
+
+# 测试世界生成后是否保留（方便排查粘贴问题）
+keepTestWorld: false
+
+# 异步粘贴每 tick 提交的方块数量（性能调优，默认 2000）
+pasteSpeed: 2000
+
+# 地牢内非玩家实体定期清理间隔（秒，0 = 不清理）
+# 清理对象：掉落物、箭矢、经验球
+entityCleanupInterval: 300
+
+# 将 Debug 输出同时写入 plugins/HimDungeons/debug.log
+debugLogToFile: false
+
+# bStats 指标（true = 启用匿名统计）
+metrics: true
+
+# 启动时检查 GitHub Releases 新版本
+updateCheck: true
+
+# 原理图格式
+schematic:
+  readFormat: auto       # auto / sponge_v2 / sponge_v3
+  saveFormat: sponge_v3  # sponge_v2 / sponge_v3

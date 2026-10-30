@@ -1,0 +1,709 @@
+# ============================================================
+# HimDungeons 简体中文语言文件
+# ============================================================
+# 规则：
+#   1) 颜色码统一写 &，由 LanguageManager 转 §
+#   2) 占位符格式 %name%，参数由代码传入
+#   3) 字面百分号请写 %%
+#   4) 每个 key 都需在 en_US.yml 中有对应项
+#   5) 修改后执行 /dg reload 生效
+# ============================================================
+
+# ===== 通用 =====
+common:
+  player-only: "该命令只能由玩家执行"
+  unknown-subcommand: "未知子命令，使用 /%label% help 查看帮助"
+  reload-success: "配置已重载"
+
+# ===== 命令 =====
+command:
+  help:
+    header: "&6=== HimDungeons 命令帮助 ==="
+    start: "&e/dg start [地牢名] [模式] &f启动地牢，模式: single(默认)/multi/party"
+    start-party-confirm: "&e/dg start party confirm &f确认 Party 加入"
+    edit: "&e/dg edit [地牢名] &f管理地牢（不带参数打开管理 GUI）"
+    leave: "&e/dg leave &f离开当前地牢"
+    reload: "&e/dg reload &f重载配置"
+    create: "&e/dg create <地牢名> &f创建新地牢目录结构"
+    help: "&e/dg help &f显示此帮助"
+    blockpos: "&e/dg blockpos <x> <y> <z> &f计算方块在选区内的相对坐标"
+    permissions: "&7权限节点: himdungeons.start, himdungeons.admin, himdungeons.leave"
+
+  blockpos:
+    no-permission: "你没有权限使用此命令（需要 himdungeons.admin）"
+    debug-only: "该命令仅在调试模式下可用"
+    usage: "用法: /dg blockpos <x> <y> <z>"
+    no-selection: "请先用木镐（创造模式 + OP）选择区域"
+    out-of-region: "该方块不在选区内"
+    relative: "相对坐标: (%x%, %y%, %z%)"
+    invalid-number: "坐标必须为整数"
+
+  create:
+    no-permission: "你没有权限创建地牢（需要 himdungeons.admin）"
+    usage: "用法: /dg create <地牢名>"
+    exists: "地牢 '%dungeon%' 已存在"
+    mkdir-fail: "创建地牢目录失败"
+    save-fail: "保存 config.yml 失败: %error%"
+    success: "地牢 '%dungeon%' 创建成功！"
+
+  start:
+    no-permission: "你没有权限启动地牢（需要 himdungeons.start）"
+    not-found: "地牢 '%dungeon%' 不存在或配置缺失"
+    not-enabled: "地牢 '%dungeon%' 未启用"
+    reentering: "重新进入未完成的地牢 %dungeon%"
+    enter-denied: "进入地牢被外部否决"
+    already-in: "你已在该地牢中"
+    generating: "正在生成地牢 '%dungeon%'，请稍候..."
+    unknown-mode: "未知模式: %mode%，可用: single, multi, party"
+
+  edit:
+    no-permission: "没有权限"
+    invalid-category: "无效分类: %section%"
+
+  leave:
+    no-permission: "你没有权限离开地牢（需要 himdungeons.leave）"
+
+  reload:
+    no-permission: "你没有权限重载配置（需要 himdungeons.admin）"
+
+  multi:
+    no-nearby: "未找到附近 3 格内潜行的玩家，以单人模式启动"
+    party-joined: "组队加入 %dungeon%，队员: %names%"
+
+  async:
+    generate-failed: "地牢生成失败，请查看控制台错误"
+    join-success: "已加入地牢 %dungeon%"
+    enter-denied: "进入地牢被外部否决"
+    world-not-found: "无法获取地牢世界，请手动传送"
+    start-failed: "启动地牢失败: %error%"
+
+  test:
+    generating: "&e正在生成测试世界..."
+
+  party:
+    no-plugin: "Party 插件未安装，无法使用 Party 模式"
+    not-allowed: "该地牢不允许 Party 加入"
+    invite-sent: "已向队伍成员发送加入邀请，请队员输入 /dg start party confirm 确认加入"
+    integration-failed: "Party 功能未正确集成，请检查插件版本"
+    no-pending: "没有待确认的 Party 加入请求"
+    confirmed: "确认加入地牢 '%dungeon%'，正在生成..."
+    no-members: "队伍中没有其他在线成员"
+
+  list:
+    no-permission: "你没有权限使用此命令（需要 himdungeons.admin）"
+    header: "&6=== 运行中的地牢实例 ==="
+    entry: "&e%world% &7| 地牢: &f%dungeon% &7| 玩家: &f%players% &7| 剩余: &f%time%"
+    empty: "&7当前没有运行中的地牢实例"
+
+  kick:
+    no-permission: "你没有权限使用此命令（需要 himdungeons.admin）"
+    usage: "用法: /dg kick <玩家名>"
+    not-found: "玩家 %player% 不在任何地牢中"
+    success: "&a已将 %player% 踢出地牢"
+
+  forceend:
+    no-permission: "你没有权限使用此命令（需要 himdungeons.admin.world）"
+    usage: "用法: /dg forceend <世界名>"
+    not-found: "世界 %world% 不是运行中的地牢"
+    success: "&a已强制结束 %world%"
+
+  reload-one:
+    no-permission: "你没有权限使用此命令（需要 himdungeons.admin）"
+    usage: "用法: /dg reload <地牢名>"
+    not-found: "地牢 %dungeon% 不存在"
+    success: "&a已重载地牢 %dungeon% 的配置"
+
+  validate:
+    no-permission: "你没有权限使用此命令（需要 himdungeons.admin）"
+    usage: "用法: /dg validate <地牢名>"
+    not-found: "地牢 %dungeon% 不存在"
+    header: "&6=== 校验地牢 %dungeon% ==="
+    ok: "&a✓ %room% 完整"
+    missing-schem: "&c✗ %room% 缺少原理图"
+    missing-door: "&c✗ %room% 缺少门文件"
+    orphan-weight: "&e⚠ structureChoose 中的 %room% 找不到对应文件"
+    summary: "&7共 %rooms% 个房间，%errors% 个错误，%warnings% 个警告"
+
+  lang:
+    no-permission: "你没有权限使用此命令（需要 himdungeons.admin）"
+    usage: "用法: /dg lang <语言代码>"
+    not-found: "语言 %code% 不存在，可用: %available%"
+    success: "&a语言已切换为 %code%"
+
+  setlobby:
+    no-permission: "你没有权限使用此命令（需要 himdungeons.admin）"
+    usage: "用法: /dg setlobby <地牢名>"
+    not-found: "地牢 %dungeon% 不存在"
+    success: "&a已将 %dungeon% 的大厅传送点设置为当前位置 (%world%, %x%, %y%, %z%)"
+    save-fail: "&c保存失败: %error%"
+
+  leaderboard:
+    no-permission: "你没有权限查看排行榜（需要 himdungeons.start）"
+    usage: "用法: /dg leaderboard <地牢名>"
+    not-found: "地牢 %dungeon% 不存在"
+    list-header: "&6=== 有排行榜的地牢 ==="
+    list-entry: "&e%dungeon% &7| 通关人数: &f%players%"
+    list-empty: "&7当前没有可查看的地牢"
+
+# ===== 地牢生成流程 =====
+dungeon:
+  generated: "地牢 '%dungeon%' 生成完成！共 %rooms% 个普通房间，%fallback% 个 fallback 房间。"
+  enter-denied: "进入地牢被外部否决，正在回收世界..."
+
+# ===== 入场费 =====
+enter-cost:
+  no-config: "无法加载地牢配置"
+  vault-insufficient: "余额不足，需要 %amount% 金币"
+  vault-deducted: "扣除 %amount% 金币"
+  points-insufficient: "点券不足，需要 %amount% 点券，当前有 %balance%"
+  points-deducted: "扣除 %amount% 点券"
+  vault-error: "Vault 扣费失败: %error%"
+  points-error: "PlayerPoints 扣费失败: %error%"
+
+# ===== 会话 =====
+session:
+  not-in-dungeon: "你当前不在任何地牢中"
+  leave-denied: "离开地牢被外部否决"
+  left: "你已离开地牢"
+  timeout-closed: "地牢已超时关闭，你被传送回主世界"
+  death-cooldown: "&e你在地牢中死亡，%seconds% 秒后可复活"
+  respawn-spectator: "&7你已进入旁观者模式，可以观看队友继续战斗"
+  countdown: "&e地牢剩余时间: &c%time%"
+  timeout-extended: "&e地牢已延长 5 分钟"
+  invulnerable: "&a你获得了 %seconds% 秒无敌保护"
+  cooldown-remaining: "&c你还需要等待 %seconds% 秒才能再次进入地牢"
+  fog-enter: "&7进入 &e%dungeon% &7地牢，视野受限"
+  fog-exit: "&7视野恢复"
+
+# ===== 监听器拦截 =====
+listener:
+  command-denied: "该命令在地牢中被禁止"
+  place-denied: "该方块在地牢中不可放置"
+  break-denied: "该方块在地牢中不可破坏"
+  interact-denied: "该方块在地牢中不可交互"
+  slimefun-blocked: "该地牢禁止使用 Slimefun 物品"
+  slimefun-break-blocked: "该地牢禁止破坏 Slimefun 方块"
+  mythicmobs-blocked: "该地牢禁止使用 MythicMobs 物品"
+
+# ===== 木镐选区 =====
+selection:
+  pos1: "点1: %x%, %y%, %z%"
+  pos2: "点2: %x%, %y%, %z%"
+  region: "选区: %w%x%h%x%l%"
+
+# ===== 奖励 =====
+reward:
+  vault: "获得 %amount% 金币"
+  player-points: "获得 %amount% 点券"
+  finished: "地牢通关！奖励已发放。"
+
+# ===== 地牢选择 GUI =====
+startgui:
+  title: "选择地牢"
+  lore-click-join: "&7点击加入"
+  item-random: "&e随机选择"
+  item-random-lore: "&7随机加入一个地牢"
+  item-single: "&e单人加入"
+  item-single-lore: "&7单独进入地牢"
+  item-party: "&e组队加入"
+  item-party-lore: "&7邀请附近 3 格内潜行玩家"
+  item-close: "&c关闭"
+  msg-pick-dungeon: "请再次输入 /dg start 选择地牢，或点击地牢名直接加入"
+  msg-detect-nearby: "检测附近 3 格内潜行玩家..."
+
+# ===== 队伍 =====
+party:
+  glow-on: "&a队友已发光"
+  glow-off: "&7队友发光已关闭"
+
+# ===== Boss =====
+boss:
+  bar-title: "&c%name% &7- &c%hp%&7/&c%max%"
+  phase-change: "&c%name% 进入第二阶段！"
+  direction: "&cBoss 在 &e%direction% &c方向 %distance% 格"
+
+# ===== Boss 阶段 =====
+boss-phase:
+  trigger: "&c%name% &7进入 &c%phase% &7阶段！"
+  sound-played: "&7播放音效: %sound%"
+
+# ===== 战利品表 =====
+loot-table:
+  table-not-found: "&c战利品表 '%table%' 不存在"
+
+# ===== 排行榜 =====
+leaderboard:
+  title: "&f&l排行榜 - %dungeon%"
+  mode-fastest: "&e最快通关"
+  mode-wins: "&e最多通关"
+  mode-current: "&a当前: %mode%"
+  entry-name: "&e#%rank% %player%"
+  lore-fastest: "&7最快: &f%time%"
+  lore-wins: "&7通关: &f%wins% 次"
+  lore-empty: "&7暂无记录"
+  switch-fastest: "&e切换到最快通关"
+  switch-wins: "&e切换到最多通关"
+  close: "&c关闭"
+
+# ===== 校验 =====
+validate:
+  no-rooms-dir: "&c房间目录不存在: %path%"
+
+# ===== 编辑器 GUI =====
+editor:
+
+  # -------- 通用 --------
+  common:
+    click-edit: "&e点击修改"
+    click-cycle: "&e点击循环切换"
+    click-cycle-short: "&e左键循环"
+    click-delete: "&c左键删除"
+    click-edit-delete: "&e左键改值 &c右键删除"
+    page-prev: "&e向左翻页"
+    page-next: "&e向右翻页"
+    page-prev-short: "&e上一页"
+    page-next-short: "&e下一页"
+    page-info: "&e第 %page% 页"
+    back-main: "&7回到主页面"
+    back-list: "&7回到实例选择页面"
+    back-parent: "&7返回上一级"
+    back-edit: "&7返回实例修改选择"
+    add: "&a添加条目"
+    save: "&a保存"
+    save-ok: "&a已保存"
+    save-fail: "&c保存失败"
+    cancelled: "&7已取消"
+    cancel-hint: "&7输入 cancel 取消"
+    invalid-int: "无效整数"
+    current: "&7当前值: &f%value%"
+    path: "&7路径: &f%path%"
+
+  # -------- 标题 --------
+  title:
+    main: "&e&lHimDungeons总编辑器"
+    root: "&f&lHimDungeons根配置编辑页面"
+    dungeon-list: "&f&lHimDungeons地牢实例列表"
+    dungeon-editor: "&f&lHimDungeons实例修改选择页面"
+    config-cat: "&f&lHimDungeons实例配置修改选择页面"
+    config-section: "&f&lHimDungeons配置编辑 - %section%"
+    room-list: "&f&lHimDungeons房间配置列表"
+    room-config: "&f&lHimDungeons房间配置 - %room%"
+    door-list: "&f&lHimDungeons门文件编辑 - %room%"
+    single-door: "&f&lHimDungeons门编辑 - %room%"
+    chest-list: "&f&lHimDungeons箱子文件编辑 - %room%"
+    single-chest: "&f&lHimDungeons箱子编辑 - %room%"
+    spawn: "&f&lHimDungeons出生点编辑 - %room%"
+    checkpoint: "&f&lHimDungeons存档点编辑 - %room%"
+    code-files: "&f&lHimDungeons脚本文件列表"
+    code-files-sub: "&f&lHimDungeons脚本文件列表 - %dir%"
+    list: "&f&lHimDungeons列表编辑 - %path%"
+    map: "&f&lHimDungeons键值编辑 - %path%"
+    hook-overview: "&f&lHimDungeons钩子管理"
+    hook-detail: "&f&lHimDungeons钩子详情 - %name%"
+
+  # -------- 主页面 --------
+  main:
+    hook: "&a钩子管理"
+    hook-lore1: "&7查看并逐条卸载当前接入的钩子"
+    hook-lore2: "&7当前共 &f%count% &7个"
+    root: "&a修改根配置"
+    root-lore: "&7编辑 config.yml"
+    dungeon: "&a修改地牢实例配置"
+    dungeon-lore: "&7选择地牢"
+    reload: "&c重载整个插件"
+    reload-lore: "&7重新加载插件"
+    join: "&e跳转到加入游戏"
+
+    # -------- 枚举显示文本 --------
+  respawn-mode:
+    lobby: "&c回到大厅"
+    checkpoint: "&a存档点"
+    spectator: "&e旁观者"
+  timeout-action:
+    force-end: "&c强制结束"
+    extend: "&a加时 5 分钟"
+  share-mode:
+    each: "&a每人全额"
+    split: "&e平分"
+  # -------- 根配置 --------
+  root:
+    lang: "&e全局语言"
+    msg-prefix: "&e全局消息前缀"
+    scan: "&e定时扫描并注册新房间"
+    cooldown: "&e生成冷却"
+    save-format: "&e原理图保存版本"
+    save-format-lore1: "&7当前: &f%format%"
+    save-format-lore2: "&e左键切换 V2 / V3"
+
+  # -------- 地牢列表 --------
+  dungeon-list:
+    entry: "&a%name%"
+    entry-lore: "&7点击编辑"
+
+  # -------- 地牢编辑 --------
+  dungeon-editor:
+    add-room: "&a添加房间"
+    add-door: "&a添加门锚点"
+    add-chest: "&a添加箱子"
+    add-spawn: "&a添加出生点（仅 start）"
+    add-checkpoint: "&a添加存档点"
+    remove-room: "&c移除房间"
+    remove-door: "&c移除门锚点"
+    remove-chest: "&c移除箱子"
+    remove-spawn: "&c移除出生点（仅 start）"
+    remove-checkpoint: "&c移除存档点"
+    config: "&e更改配置文件"
+    refresh: "&e更新配置文件"
+    refresh-lore: "&7重读磁盘，丢弃内存改动"
+    room-config: "&e更改房间配置"
+    reset: "&c恢复配置文件到默认值"
+    scan: "&e扫描一次目录并注册新房间"
+    codefiles: "&e脚本文件管理"
+    test: "&e生成测试，不进行游戏"
+    delete-test: "&c删除测试世界"
+    delete-test-none: "&7删除测试世界（无）"
+    join: "&a加入此实例进行游戏"
+
+  # -------- 配置分类 --------
+  config-cat:
+    root: "&e实例根配置"
+    gen: "&e生成算法"
+    world: "&e世界规则和状态"
+    player: "&e玩家配置"
+    boss: "&eBoss 配置"
+    economy: "&e入场费结算和奖励"
+    soft: "&e软依赖配置"
+    back: "&7返回实例修改选择"
+
+  # -------- Field 名称 --------
+  field:
+    enable: "启用"
+    display-name: "显示名称"
+    file-name: "文件名称"
+    msg-prefix: "消息前缀"
+    lobby: "大厅传送点"
+    min-room: "最小房间数"
+    max-room: "最大房间数"
+    dfs-max: "DFS 最大深度"
+    use-bfs: "启用 BFS 检查"
+    use-aabb: "启用 AABB"
+    disconnected-distance: "房间间距阈值"
+    allow-room-reuse: "允许房间复用"
+    allow-door-reuse: "允许门复用"
+    allow-fallback-reuse: "允许 Fallback 门复用"
+    start-to-boss: "主干 Boss 范围"
+    block-generate: "阻止生成的方块"
+    keep-inventory: "保留背包"
+    deep-clone: "深拷贝背包"
+    time: "限时（秒）"
+    dungeon-time: "世界时间（tick）"
+    advance-time: "时间推进"
+    weather: "天气"
+    difficulty: "难度"
+    allow-mobs: "允许的怪物"
+    tnt: "TNT 爆炸"
+    entity: "实体爆炸"
+    block: "方块爆炸"
+    cmd-list-type: "命令白名单模式"
+    cmd-list: "命令白名单"
+    build-list-type: "建筑白名单模式"
+    build-list: "建筑白名单"
+    break-list-type: "破坏白名单模式"
+    break-list: "破坏白名单"
+    interact-list-type: "交互白名单模式"
+    interact-list: "交互白名单"
+    use-mythic-boss: "使用 MythicMob 作 Boss"
+    mythic-boss-name: "MythicMob Boss 名称"
+    boss-type: "Boss 类型列表"
+    boss-nbt: "Boss NBT 列表"
+    vault-reward: "通关奖励 Vault"
+    pp-reward: "通关奖励 PlayerPoints"
+    cmd-reward: "通关奖励命令"
+    vault-cost: "入场费 Vault"
+    pp-cost: "入场费 PlayerPoints"
+    cmd-cost: "入场费命令"
+    allow-parties: "允许组队（Parties）"
+    allow-slimefun: "允许 Slimefun"
+    allow-mythic: "允许 MythicMobs 小怪"
+    # P0 新增
+    respawn-mode: "重生模式"
+    death-cooldown: "死亡冷却（秒）"
+    player-cooldown: "玩家进入冷却（秒）"
+    friendly-fire: "友伤"
+    auto-pickup: "自动拾取"
+    teleport-invulnerable: "传送无敌（秒）"
+    # P1 体验
+    countdown-warn: "倒计时警告（秒列表）"
+    timeout-action: "超时处理"
+    enter-title: "进入标题"
+    leave-title: "离开标题"
+    room-progress: "房间进度（ActionBar）"
+    boss-direction: "Boss 方向（ActionBar）"
+    sound-volume: "音效音量（0-100）"
+    allow-spectator: "允许死后旁观"
+    # P1 难度
+    scale-by-party: "按队伍人数缩放"
+    mob-spawn-rate: "怪物生成率倍率"
+    max-mobs-per-room: "单房间怪物上限"
+    # P0 玩家可见
+    boss-bar: "Boss 血条"
+    party-glow: "队友发光"
+    # P1 Boss
+    boss-health-multiplier: "每玩家 Boss 血量倍率"
+    boss-phase-enabled: "启用 Boss 分阶段"
+    boss-phase-phases: "Boss 阶段配置（复杂）"
+    # P1 经济
+    first-clear-vault: "首通 Vault 奖励"
+    first-clear-pp: "首通 PlayerPoints 奖励"
+    first-clear-cmd: "首通命令"
+    share-mode: "奖励分配模式"
+    permission-multiplier: "权限倍率"
+    failure-vault: "失败扣 Vault"
+    failure-pp: "失败扣 PlayerPoints"
+    failure-cmd: "失败命令"
+    track-fastest: "记录最快通关"
+    # P3
+    leaderboard: "排行榜"
+    room-fog: "房间迷雾"
+    loot-table-enabled: "启用战利品表"
+    loot-table-tables: "战利品表内容（复杂）"
+
+  # -------- 房间列表 --------
+  room-list:
+    entry: "&e%name%"
+    entry-lore: "&7权重: &f%weight%"
+
+  # -------- 房间配置 --------
+  room-config:
+    weight: "&e当前权重"
+    weight-value: "&7%weight%"
+    weight-click: "&e点击修改"
+    door-file: "&e门文件"
+    chest-file: "&e箱子文件"
+    spawn-file: "&e出生点文件"
+    checkpoint-file: "&e存档点文件"
+
+  # -------- 门列表 --------
+  door-list:
+    entry: "&e#%index%"
+    entry-lore: "&7%data%"
+    entry-lore2: "&e点击编辑"
+    page-info: "&e第 %page% 页 / 共 %total% 门"
+    add: "&a添加新门"
+    add-lore: "&7使用当前注视方块"
+
+  # -------- 单门编辑 --------
+  single-door:
+    facing: "&e朝向: %value%"
+    facing-lore: "&e左键循环"
+    type: "&e类型: %value%"
+    type-lore: "&e左键循环"
+    weight: "&e权重: %value%"
+    delete: "&c删除此门"
+
+  # -------- 坐标（X/Y/Z，出生点、门共用） --------
+  coord:
+    x: "&eX: %value%"
+    y: "&eY: %value%"
+    z: "&eZ: %value%"
+
+  # -------- 箱子列表 --------
+  chest-list:
+    entry: "&e#%index%"
+    entry-lore: "&7%data%"
+    entry-lore2: "&e点击编辑"
+    page-info: "&e第 %page% 页 / 共 %total% 箱子"
+    add: "&a添加新箱子"
+    add-lore: "&7使用当前注视方块"
+
+  # -------- 单箱编辑 --------
+  single-chest:
+    pos: "&e坐标"
+    loot: "&e战利品"
+    replace: "&e替换为手持物品"
+    replace-lore: "&7将 loot 改为手持物品"
+    delete: "&c删除此箱子"
+
+  # -------- 出生点 / 存档点 --------
+  spawn:
+    overwrite: "&a用玩家当前位置覆盖"
+  checkpoint:
+    overwrite: "&a用玩家当前位置覆盖"
+
+  # -------- 脚本文件 --------
+  code-files:
+    dir: "&7目录"
+    file-size: "&7%bytes% bytes"
+    file-preview: "&e%file% (&7%lines% 行&e)"
+
+  # -------- 通用列表编辑 --------
+  list-editor:
+    entry: "&e#%index%"
+    entry-lore: "&7%value%"
+
+  # -------- 通用 Map 编辑 --------
+  map-editor:
+    entry: "&e%key%"
+    entry-lore: "&7值: &f%value%"
+
+  # -------- 钩子总览 --------
+  hook-overview:
+    group: "&7分组: &f%group%"
+    count: "&7注册数: &a%count%"
+    count-empty: "&7注册数: &70"
+    id: "&7ID: &f%id%"
+    click-lore: "&e左键查看详情并逐条卸载"
+    clear-type-lore: "&cShift + 右键清空此类"
+    clear-all: "&c清空全部钩子"
+    clear-all-lore1: "&7当前总计: &f%total%"
+    clear-all-lore2: "&cShift + 左键确认清空"
+    clear-all-lore3: "&7清空后需插件重新注册才能恢复"
+
+  # -------- 钩子详情 --------
+  hook-detail:
+    index: "&7序号: &f#%index%"
+    class: "&7完整类型: &f%class%"
+    delete-lore: "&c左键删除"
+    page-info: "&e第 %page% / %total% 页，共 %count% 个"
+    clear-type: "&c清空此类"
+    clear-type-lore1: "&7当前: &f%count% 个"
+    clear-type-lore2: "&cShift + 左键确认"
+
+  # -------- 爆炸模式显示 --------
+  explosion:
+    allow: "&a完全允许"
+    damage: "&e仅造成伤害"
+    deny: "&c完全禁止"
+
+  # -------- 聊天消息 / 输入提示 --------
+  msg:
+    reset-confirm: "&c此操作会把 %dungeon% 的 config.yml 恢复为默认值。输入 confirm 确认，输入 cancel 取消："
+    reset-ok: "&a已恢复默认配置"
+    reset-fail: "&c恢复失败，请查看控制台"
+    reloaded-config: "&a已从磁盘重读配置"
+    test-world-deleted: "&a测试世界已删除"
+    plugin-reloaded: "&a插件已重载"
+    enter-value: "&e请输入 %field% 的新值："
+    enter-value-int: "&e请输入 %field% 的新值（整数）："
+    enter-weight: "&e请输入权重（整数）："
+    enter-room-path: "&e请输入房间路径（例如 combat/myCombat）："
+    enter-start-path: "&e请输入房间路径（例如 start/myStart）："
+    enter-room-base: "&e请输入房间基础文件名（例如 combat/myCombat）："
+    enter-delete-room: "&e请输入要删除的房间路径（例如 combat/myCombat）："
+    enter-door: "&e请输入：<路径> <朝向> [类型] [权重]（例如 combat/myCombat z+ default 10）"
+    enter-key-value: "&e请输入 key=value（例如 money=100）："
+    enter-new-value: "&e请输入 %key% 的新值："
+    chest-path: "&e请输入房间路径（例如 combat/myCombat）："
+    chest-hint: "&7然后手持物品输入概率（0-100），输入 done 完成，cancel 取消"
+    chest-path-set: "&a路径已设置: %path%"
+    chest-prob-hint: "&e请手持物品输入概率（0-100），输入 done 完成，cancel 取消"
+    chest-no-loot: "&7未添加任何战利品，未保存"
+    chest-saved: "&a箱子已保存：%path%（共 %count% 个条目）"
+    chest-save-fail: "保存失败: %error%"
+    chest-invalid-prob: "&c请输入 0-100 的整数或 done/cancel"
+    chest-prob-range: "&c概率必须在 0-100"
+    chest-need-hand: "&c请手持有效物品"
+    chest-prob-zero: "&7概率为0，跳过"
+    chest-added: "&a已添加战利品，共 %count% 条"
+    chest-continue: "&e继续输入概率，或 done 完成"
+    door-added: "&a门已添加：%path%（类型: %type%，权重: %weight%）"
+    spawn-saved: "&a出生点已保存：%path%"
+    checkpoint-saved: "&a存档点已保存：%path%"
+    room-deleted: "&a已删除房间 %room%"
+    door-deleted: "&a已删除门文件"
+    chest-deleted: "&a已删除箱子文件"
+    spawn-deleted: "&a已删除出生点文件"
+    checkpoint-deleted: "&a已删除存档点文件"
+    no-room: "房间不存在"
+    no-door-file: "门文件不存在"
+    no-chest-file: "箱子文件不存在"
+    no-spawn-file: "出生点文件不存在"
+    no-checkpoint-file: "存档点文件不存在"
+    need-selection: "请先用木镐（创造 + OP）选择区域"
+    need-selection-framing: "请先框选房间区域"
+    target-block: "请对准一个方块（距离 ≤ 5 格）"
+    invalid-facing: "无效朝向（x+/x-/y+/y-/z+/z-）"
+    format-error: "格式错误"
+    save-fail-generic: "保存失败: %error%"
+    coord-updated: "&a坐标已更新"
+    schematic-saved: "&a原理图已保存到 %path%"
+    schematic-save-fail: "保存失败"
+    file-read-fail: "读取失败: %error%"
+    hook-cleared-all: "&c已清空全部钩子（共 %count% 个）"
+    hook-confirm-all: "请按住 Shift 再左键以确认清空全部"
+    hook-cleared-type: "&c已清空 %type% 类钩子（共 %count% 个）"
+    hook-confirm-type: "请按住 Shift 再左键以确认清空此类"
+    hook-deleted: "&a已删除 1 个 %type% 钩子"
+    enter-value-double: "&e请输入 %field% 的新值（小数）："
+    complex-field-hint: "&e此字段为嵌套结构，请直接编辑 config.yml 中的 &f%path%"
+    code-truncated: "&7..."
+
+# ===== Hook 类型显示名 =====
+hook:
+  type:
+    before-create-world: "世界创建前"
+    after-create-world: "世界创建后"
+    before-generate: "开始生成前"
+    after-generate: "房间放置完"
+    before-paste: "开始粘贴前"
+    after-paste: "粘贴完成"
+    dungeon-ready: "实例就绪"
+    before-destroy: "世界销毁前"
+    after-destroy: "世界销毁后"
+    room-select: "房间选择"
+    room-placed: "房间放置"
+    room-pasted: "房间粘贴"
+    chest-fill: "战利品填充"
+    before-enter: "进入前"
+    after-enter: "进入后"
+    before-leave: "离开前"
+    after-leave: "离开后"
+    finish: "通关结算"
+    offline: "玩家离线"
+    online: "重新上线"
+    boss-spawn: "Boss 生成"
+    boss-defeat: "Boss 击杀"
+
+# ===== 控制台日志 =====
+log:
+  hook:
+    boss-defeat-vetoed: "[Hook] Boss 死亡结算被外部否决: %world%"
+    execution-error: "[Hook] 钩子执行异常"
+  enable:
+    banner-ready: "HimDungeons 已启用，版本 %version%"
+    banner-disable: "HimDungeons 已禁用"
+    soft-dep-found: "软依赖 %name% 已找到"
+    soft-dep-missing: "软依赖 %name% 未找到"
+  resource:
+    example-skip: "示例地牢已存在，跳过示例资源释放。"
+    example-copy-start: "首次运行，释放示例地牢资源..."
+    example-copy-fail: "复制 example_dungeon 失败: %error%"
+    release-complete: "默认资源释放完成"
+    dir-not-found: "资源目录不存在: %path%"
+    released: "释放资源: %path%"
+    resource-not-found: "资源不存在: %path%"
+    release-fail: "释放资源失败: %path% - %error%"
+  dungeon:
+    scan-registered: "已扫描并注册新房间: %dungeon%"
+    enter-console-cmd-fail: "执行入场命令失败: %cmd%"
+  session:
+    backup-restored: "已为玩家 %player% 恢复崩溃前备份（地牢: %dungeon%）"
+    scan-marked: "启动扫描：标记 %count% 条崩溃残留备份为待恢复"
+  sqlite:
+    init-ok: "背包数据库已初始化: %path%"
+    init-fail: "初始化 SQLite 失败，备份功能将不可用"
+    save-fail: "保存背包备份失败: %uuid%"
+    restore-fail: "恢复背包失败: %uuid%"
+    update-status-fail: "更新状态失败: %uuid%"
+    find-all-fail: "查询全部备份失败"
+    find-player-fail: "查询玩家备份失败: %uuid%"
+    delete-fail: "删除背包备份失败: %uuid%"
+  win:
+    mkdir-fail: "无法创建目录: %path%"
+    save-fail: "保存 stats.yml 失败: %error%"
+  config-migrated: "配置已从版本 %from% 升级到 %to%"
+  update-available: "发现新版本 %version%，请更新"
+  metrics-disabled: "bStats 指标已被禁用"
+  roomfog:
+    applied: "[RoomFog] 已对 %player% 应用视野限制"
+    restored: "[RoomFog] 已恢复 %player% 的视野"

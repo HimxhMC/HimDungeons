@@ -1,0 +1,51 @@
+name: HimDungeons
+version: 4.1
+main: com.him.dungeons.HimDungeons
+api-version: 1.20
+author: 生电大蛇
+description: 程序化地牢生成器（兼容 Bukkit/Spigot/Paper）
+
+# ★ 移除 depend: WorldEdit
+softdepend:
+  - Parties
+  - Vault
+  - Slimefun
+  - MythicMobs
+  - PlaceholderAPI
+
+commands:
+  himdungeons:
+    description: HimDungeons 主命令
+    usage: /<command> <start|edit|leave|reload>
+    aliases: [dungeon, dg]
+    permission: himdungeons.start
+
+permissions:
+  himdungeons.start:
+    description: 允许启动地牢
+    default: true
+  himdungeons.leave:
+    description: 允许离开地牢
+    default: true
+  himdungeons.admin:
+    description: 管理员权限（父节点）
+    default: op
+    children:
+      himdungeons.admin.gui: true
+      himdungeons.admin.edit: true
+      himdungeons.admin.world: true
+  himdungeons.admin.gui:
+    description: 打开管理 GUI（只读）
+    default: op
+  himdungeons.admin.edit:
+    description: 修改配置 / 增删房间、门、箱子、出生点、存档点
+    default: op
+  himdungeons.admin.world:
+    description: 生成测试 / 删除测试世界 / 强制结束
+    default: op
+  himdungeons.*:
+    default: op
+    children:
+      himdungeons.start: true
+      himdungeons.leave: true
+      himdungeons.admin: true
