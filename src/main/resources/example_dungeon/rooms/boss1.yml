@@ -1,0 +1,12 @@
+type: boss
+use:
+  inStart: false
+  inMainPath: false
+  inBranch: false
+  inBoss: true
+  inFallback: false
+doors:
+- x: 10
+  y: 1
+  z: 0
+  facing: z-

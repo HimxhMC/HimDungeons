@@ -1,0 +1,68 @@
+type: normal
+use:
+  inStart: false
+  inMainPath: true
+  inBranch: true
+  inBoss: false
+  inFallback: false
+doors:
+- x: 20
+  y: 1
+  z: 10
+  facing: x+
+  type: default
+  weight: 10
+- x: 0
+  y: 1
+  z: 10
+  facing: x-
+  type: default
+  weight: 10
+- x: 10
+  y: 1
+  z: 20
+  facing: z+
+  type: default
+  weight: 10
+- x: 10
+  y: 1
+  z: 0
+  facing: z-
+  type: default
+  weight: 10
+chests:
+- pos:
+  - 4
+  - 2
+  - 16
+  loot: 1 DIAMOND_BLOCK 32
+- pos:
+  - 4
+  - 2
+  - 16
+  loot: 5 NETHERITE_SWORD 1
+- pos:
+  - 4
+  - 2
+  - 16
+  loot: 20 DIAMOND_BLOCK 8
+- pos:
+  - 4
+  - 2
+  - 16
+  loot: 100 DIAMOND_BLOCK 4
+- pos:
+  - 4
+  - 2
+  - 16
+  loot: 1 MACE 1
+- pos:
+  - 4
+  - 2
+  - 16
+  loot: 5 NETHERITE_SWORD 1
+- pos:
+  - 4
+  - 2
+  - 16
+  loot: 30 DIAMOND_HORSE_ARMOR 1

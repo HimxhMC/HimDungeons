@@ -1,0 +1,115 @@
+# 示例地牢配置
+dungeonInstance:
+  enable: true
+  displayName: 新地牢
+  fileName: NewDungeon
+  msgPrefix: '&a[示例地牢] &r'
+  minRoomAmount: 50
+  maxRoomAmount: 60
+  dfsMaxDeep: 5
+  useBfsCheck: false
+  useAabb: true
+  structureChoose:
+    boss1: 20
+    combat2: 30
+    corner1: 10
+    cross1: 10
+    stair1: 150
+    straight1: 0
+    t1: 0
+    combat1: 30
+    updown: 250
+    fallback/fallback_floor: 50
+    fallback/fallback_floor1: 50
+    fallback/fallback_wallx: 50
+    start/start: 50
+    combat3: 50
+  disconnectedRoomDistance: 0
+  allowRoomReuse: true
+  allowDoorReuse: false
+  allowFallbackDoorReuse: false
+  startToBossRoomAmmount: 10 20
+  blockRoomGenerateBlocks: []
+  generatorChoose: []
+  allowParties: true
+  allowSlimefun: true
+  bossType:
+  - skeleton
+  bossNbt:
+  - '{Health:80.0f, Attributes:[{Name:"generic.max_health",Base:80}]}'
+  keepInventory: true
+  deepCloneInventory: true
+  time: 0
+  dungeonTime: 1200
+  advanceTime: false
+  weather: clear
+  difficulty: hard
+  allowMobs:
+  - all
+  useMythicMobs: false
+  commandsAllowListType: black
+  commandsAllow:
+  - dungeon leave
+  buildSettingsListType: black
+  buildSettings: []
+  breakSettingsListType: black
+  breakSettings:
+  - STONE_BRICKS
+  lobby: world,967.7482330294079,69.0,1994.5969211515805,31.94992,36.900024
+  rewards:
+    vault:
+      Mob: 10.0
+      Boss: 100.0
+    playerPoints:
+      Mob: 5
+      Boss: 50
+    consoleCommands:
+    - title @a title "Good!"
+    firstClearBonus:
+      vault: {}
+      playerPoints: {}
+      consoleCommands: []
+    shareMode: each
+    permissionMultiplier: {}
+  respawnMode: checkpoint
+  deathCooldown: 0
+  playerCooldown: 0
+  friendlyFire: false
+  autoPickup: true
+  teleportInvulnerable: 3
+  countdownWarn:
+  - 300
+  - 180
+  - 60
+  - 30
+  - 10
+  bossBar: true
+  partyGlow: true
+  enterTitle: ''
+  leaveTitle: ''
+  roomProgress: true
+  bossDirection: false
+  soundVolume: 100
+  allowSpectatorAfterDeath: true
+  scaleByPartySize: true
+  bossHealthMultiplierPerPlayer: 1.5
+  mobSpawnRate: 1.0
+  maxMobsPerRoom: 30
+  timeoutAction: forceEnd
+  failurePenalty:
+    vault: {}
+    playerPoints: {}
+    consoleCommands: []
+  stats:
+    trackFastestTime: true
+  roomFog: false
+  minimap: false
+  leaderboard: false
+  bossPhase:
+    enabled: false
+    phases: []
+  lootTable:
+    enabled: false
+    tables: {}
+  interactionSettingsListType: black
+generateCooldown: 10

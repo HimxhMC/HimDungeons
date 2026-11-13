@@ -1,0 +1,14 @@
+type: fallback
+use:
+  inStart: false
+  inMainPath: false
+  inBranch: false
+  inBoss: false
+  inFallback: true
+doors:
+- x: 1
+  y: 0
+  z: 1
+  facing: y-
+  type: default
+  weight: 10

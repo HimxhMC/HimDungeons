@@ -1,0 +1,22 @@
+// HIMDSL + HIMDUNGEONS Coding -> example_dungeon
+
+@BukkitRunnable void test() sche=10s {
+    player p = @r;
+    var bossRoomPath = "boss1";
+    var worldname = $player(p, world)$;
+    var playername = $player(p, name)$;
+    var bossx=$boss(x,p)$;
+    var bossy=$boss(y,p)$;
+    var bossz=$boss(z,p)$;
+    if (!startsWith(worldname, "dungeon")) return;
+    
+    bool inBoss = $player(p, atroom, bossRoomPath)$;
+    if (inBoss) {
+        var a1="say " + playername + " 已在 Boss 房间！Boss位置"+ toString(bossx)+" "+toString(bossy)+" "+toString(bossz);
+        runcmd("CONSOLE", a1);
+    } else {
+        var a2="say " + playername + " 不在 Boss 房间";
+        runcmd("CONSOLE", a2);
+    }
+}
+int main(){ start("test"); }

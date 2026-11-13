@@ -1,0 +1,65 @@
+# ============================================================
+# HimDungeons 全局配置
+# ============================================================
+# 配置版本（请勿手动修改，升级时自动迁移）
+configVersion: 1
+
+# 全局语言文件（plugins/HimDungeons/lang/<code>.yml）
+# 可用值: zh_CN, en_US，或其他你自己放进 lang/ 的语言
+lang: en_US
+
+# 全局消息前缀（会拼在所有 MessageUtil 消息前）
+# 地牢实例若配置了 dungeonInstance.msgPrefix，则地牢内的消息使用实例前缀
+msgPrefix: "&b[HimDungeons] &r"
+
+# 语言相关
+language:
+  # 按玩家客户端 locale 自动选择语言（找不到回退 lang 字段）
+  useClientLocale: false
+
+# 生成冷却（秒，0 = 不限制）
+generateCooldown: 0
+
+# 定时扫描并注册新房间（每 10 秒扫描一次）
+scanAndRegisterNewRooms: true
+
+# 测试世界生成后是否保留（方便排查粘贴问题）
+keepTestWorld: false
+
+# 地牢世界池：预创建 N 个空虚空世界，生成时直接借用，省去每次 5s 创世开销
+# 0 = 关闭（每次现创建），推荐 1~3
+worldPool:
+  size: 2
+
+# 异步粘贴每 tick 提交的方块数量（性能调优，默认 2000）
+pasteSpeed: 2000
+
+# 地牢内非玩家实体定期清理间隔（秒，0 = 不清理）
+# 清理对象：掉落物、箭矢、经验球
+entityCleanupInterval: 300
+
+# 将 Debug 输出同时写入 plugins/HimDungeons/debug.log
+debugLogToFile: false
+
+# bStats 指标（true = 启用匿名统计）
+metrics: true
+
+# 启动时检查 GitHub Releases 新版本
+updateCheck: true
+
+# 原理图格式
+schematic:
+  readFormat: auto       # auto / sponge_v2 / sponge_v3
+  saveFormat: sponge_v3  # sponge_v2 / sponge_v3
+
+# ============================================================
+# 快速粘贴（NMS 反射，不保证所有版本兼容，默认关闭）
+# ============================================================
+fastPaste:
+  # 是否启用 LevelChunkSection 直写（性能约为普通粘贴的 5~8 倍）
+  # 不稳定：依赖服务端内部实现，Paper 更新后可能失效（自动回退普通粘贴）
+  enabled: false
+
+  # 当前扫描到的可用 NMS 包路径（启用时自动写入，供排错参考）
+  # 留空则每次启动自动检测
+  detectedPackage: ""

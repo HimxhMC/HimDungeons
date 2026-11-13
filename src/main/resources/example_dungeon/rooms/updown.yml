@@ -1,0 +1,38 @@
+type: normal
+use:
+  inStart: false
+  inMainPath: true
+  inBranch: true
+  inBoss: false
+  inFallback: false
+doors:
+- x: 10
+  y: 1
+  z: 0
+  facing: z-
+  type: default
+  weight: 10
+- x: 16
+  y: 8
+  z: 16
+  facing: y+
+  type: default
+  weight: 10
+- x: 4
+  y: 8
+  z: 16
+  facing: y+
+  type: default
+  weight: 10
+- x: 16
+  y: 0
+  z: 16
+  facing: y-
+  type: default
+  weight: 10
+- x: 4
+  y: 0
+  z: 16
+  facing: y-
+  type: default
+  weight: 10
